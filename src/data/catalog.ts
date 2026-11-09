@@ -116,7 +116,7 @@ export const toCap = (s: string) => Array.from(s, (c) => { const cp = c.codePoin
 export const face = (f: Pick<Family, 'caps' | 'mins'>, s: string) => (!f.caps ? toMin(s) : !f.mins ? toCap(s) : s);
 
 export const SAMPLE_GLYPHS = '𐐔𐐓𐐙';
-export const HERO_LINE = '𐐜 𐐒𐐋𐐗 𐐉𐐚 𐐣𐐃𐐡𐐣𐐊𐐤';
+export const HERO_LINE = '𐐔𐐯𐑅𐐨𐑉𐐯𐐻 𐐓𐐴𐐹 𐐙𐐵𐑌𐐼𐑉𐐨';
 
 export interface Tier {
   key: 'personal' | 'commercial' | 'enterprise';
