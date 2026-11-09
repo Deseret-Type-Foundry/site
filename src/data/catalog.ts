@@ -70,7 +70,7 @@ export const FAMILIES: Family[] = [
   },
   {
     slug: 'calyptapis', page: true, specimen: '/specimens/calyptapis.pdf', prefix: 'DTF', name: 'Calyptapis', css: "'DTF Calyptapis'", style: 'Slab serif', status: 'avail', caps: false, mins: true,
-    weights: C6, heroW: 700, cardBg: '#7d1515', fg: '#f4d6b0',
+    weights: C6, heroW: 600, cardBg: '#7d1515', fg: '#f4d6b0',
     blurb: 'A slab serif for the Deseret alphabet.',
     note: 'A genus of fossil bee.',
     theme: { ...GOLD, bg: '#6b1111', arch: '#8a1a1a', text: '#f7e6d4', hi: '#f4d6b0' },
