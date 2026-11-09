@@ -32,7 +32,7 @@
   --tint:rgba(216,180,92,.12);
   --logo-filter:invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(.85); --logo-blend:screen;
   --gutter:clamp(20px,4vw,48px);
-  --sunburst:repeating-conic-gradient(from 0deg at 50% 100%,rgba(201,162,74,.10) 0deg 4deg,transparent 4deg 9deg);
+  --sunburst:repeating-conic-gradient(from -2deg at 50% 100%,rgba(201,162,74,.10) 0deg 4deg,transparent 4deg 9deg);
 }
 
 *{box-sizing:border-box}
