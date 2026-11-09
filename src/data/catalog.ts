@@ -19,6 +19,14 @@ export interface Theme {
   logoBlend: string;
 }
 
+/** An OpenType feature, shown on the family page off and on. sample uses minuscules so it renders in the preview fonts. */
+export interface Feature {
+  tag: string; // OpenType tag, e.g. 'ss01'
+  name: string;
+  desc: string;
+  sample: string;
+}
+
 export interface Family {
   slug: string;
   prefix: 'DTF' | 'IDC';
@@ -30,12 +38,14 @@ export interface Family {
   mins: boolean; // font has Deseret minuscules (U+10428–1044F)
   weights: readonly Weight[];
   heroW: number; // weight used for the card/hero sample
+  titleCss?: string; // CSS font-family of a capitals title font that has the SAMPLE_GLYPHS capitals, used for them in place of the minuscules
   cardBg: string;
   fg: string; // glyph colour on cards
   blurb: string;
   note: string; // About page note
   page: boolean; // has its own /typefaces/<slug>/ page and is linked from lists; false = forthcoming notice only
   specimen?: string; // path of the specimen PDF under /public, if one is cleared for the site
+  features?: readonly Feature[]; // OpenType features, from the font's dtf.toml
   theme: Theme;
 }
 
@@ -56,9 +66,15 @@ const GOLD = {
 export const FAMILIES: Family[] = [
   {
     slug: 'andrena', page: true, specimen: '/specimens/andrena.pdf', prefix: 'DTF', name: 'Andrena', css: "'DTF Andrena'", style: 'Art Deco', status: 'avail', caps: false, mins: true,
-    weights: W6, heroW: 900, cardBg: '#16213e', fg: '#d8a640',
+    weights: W6, heroW: 900, titleCss: "'DTF Andrena Title'", cardBg: '#16213e', fg: '#d8a640',
     blurb: 'An Art Deco face for the Deseret alphabet.',
     note: 'A ground-nesting solitary mining bee.',
+    features: [
+      { tag: 'ss01', name: 'Post-1859 ligatures', desc: '𐐧 and 𐐦 as the later MULE and CHOICE ligatures.', sample: '𐑏 𐑎' },
+      { tag: 'ss02', name: 'Pre-1868 long E', desc: '𐐁 in its earlier open form.', sample: '𐐩' },
+      { tag: 'ss03', name: 'Aesthetic variants', desc: 'An alternate 𐐦.', sample: '𐑎' },
+      { tag: 'tnum', name: 'Tabular figures', desc: 'Digits of one width, for columns of numbers.', sample: '1111 / 4444' },
+    ],
     theme: { ...GOLD, bg: '#16213e', arch: '#0d1428', text: '#efe3c4', hi: '#f1dca0' },
   },
   {
@@ -66,6 +82,11 @@ export const FAMILIES: Family[] = [
     weights: W6, heroW: 900, cardBg: 'radial-gradient(circle at 50% 30%,#2e8f5a,#0e3d29 70%)', fg: '#bff0cc',
     blurb: 'An Art Deco face for the Deseret alphabet.',
     note: 'A metallic green sweat bee.',
+    features: [
+      { tag: 'ss01', name: 'Alternate ampersand', desc: 'An alternate &.', sample: '&' },
+      { tag: 'ss02', name: 'Single-bar dollar sign', desc: '$ with one bar instead of two.', sample: '$' },
+      { tag: 'salt', name: 'Stylistic alternates', desc: 'Both of the above at once, for apps with a single alternates switch.', sample: '& $' },
+    ],
     theme: { ...GOLD, bg: '#0e3d29', arch: 'radial-gradient(circle at 50% 30%,#2e8f5a,#0a2e1f 70%)', text: '#e6f3e4', hi: '#bff0cc' },
   },
   {
@@ -116,6 +137,9 @@ export const toCap = (s: string) => Array.from(s, (c) => { const cp = c.codePoin
 export const face = (f: Pick<Family, 'caps' | 'mins'>, s: string) => (!f.caps ? toMin(s) : !f.mins ? toCap(s) : s);
 
 export const SAMPLE_GLYPHS = '𐐔𐐓𐐙';
+/** The family's DTF glyphs and the CSS font-family to set them in: capitals from its title font if it has one, else face(). */
+export const sampleGlyphs = (f: Pick<Family, 'caps' | 'mins' | 'css' | 'titleCss'>) =>
+  f.titleCss ? { css: `${f.titleCss},${f.css}`, text: SAMPLE_GLYPHS } : { css: f.css, text: face(f, SAMPLE_GLYPHS) };
 // Majuscules on purpose: set in the title-only capitals subset (Andrena-Black-Title.woff2), NOT folded by face().
 // Every letter here must exist in that file (see ALLOWED_TITLE in scripts/check-fonts.py).
 export const HERO_LINE = '𐐔𐐇𐐝𐐀𐐡𐐇𐐓 𐐓𐐌𐐑 𐐙𐐍𐐤𐐔𐐡𐐀';

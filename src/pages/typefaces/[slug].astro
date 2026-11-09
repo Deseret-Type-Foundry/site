@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import DeseretKeyboard from '../../components/DeseretKeyboard.astro';
-import { FAMILIES, TIERS, SAMPLE, SAMPLE_GLYPHS, STOREFRONT_OPEN, bySlug, face } from '../../data/catalog';
+import { FAMILIES, TIERS, SAMPLE, STOREFRONT_OPEN, bySlug, face, sampleGlyphs } from '../../data/catalog';
 
 export function getStaticPaths() {
   return FAMILIES.filter((f) => f.page).map((f) => ({ params: { slug: f.slug } }));
@@ -9,7 +9,7 @@ export function getStaticPaths() {
 
 const f = bySlug(Astro.params.slug!)!;
 const sample = face(f, SAMPLE);
-const glyphs = face(f, SAMPLE_GLYPHS);
+const glyphs = sampleGlyphs(f);
 const others = FAMILIES.filter((x) => x.page && x.slug !== f.slug);
 const defaultW = f.weights.find((w) => w[0] === 400) ?? f.weights[0];
 const cta = f.status === 'avail' ? 'Buy a license' : f.status === 'free' ? 'Download free' : 'Get notified';
@@ -41,7 +41,7 @@ const payload = {
           class="arch-220"
           style={`border:1px solid var(--line);background:var(--arch);color:${f.fg};display:flex;align-items:center;justify-content:center;padding:70px 20px 40px;overflow:hidden`}
         >
-          <span style={`font-family:${f.css};font-weight:${f.heroW};font-size:clamp(90px,11vw,170px);line-height:1.15;white-space:nowrap`}>{glyphs}</span>
+          <span style={`font-family:${glyphs.css};font-weight:${f.heroW};font-size:clamp(90px,11vw,170px);line-height:1.15;white-space:nowrap`}>{glyphs.text}</span>
         </div>
       </div>
       <div class="spec">
@@ -49,6 +49,7 @@ const payload = {
         <div class="row"><span>Weights</span><span>{f.weights.length === 1 ? '1 weight' : `${f.weights.length} weights`}</span></div>
         <div class="row"><span>Script</span><span>Deseret, U+10400–1044F</span></div>
         <div class="row"><span>Formats</span><span>OTF · WOFF2</span></div>
+        {f.features && <div class="row"><span>OpenType</span><span><a href="#opentype">{f.features.map((x) => x.tag).join(' · ')}</a></span></div>}
         <a href="#buy" class="btn" style="margin-top:20px;align-self:flex-start">{cta}</a>
       </div>
     </div>
@@ -72,6 +73,12 @@ const payload = {
       <span id="caption" style="white-space:nowrap"></span>
       <button id="reset" class="link">Reset text</button>
     </div>
+    {!f.caps && (
+      <p class="tester-note">
+        The tester uses a preview font with the minuscules only, so the text and the keyboard are in minuscules; capitals you type show in
+        IDC Hesperapis instead. The licensed fonts have the capitals too.
+      </p>
+    )}
     <DeseretKeyboard target="tester-text" minuscule={!f.caps} />
   </section>
 
@@ -87,6 +94,30 @@ const payload = {
       </div>
     ))}
   </section>
+
+  {f.features && (
+    <section id="opentype" class="wrap stack" style="padding-top:72px;gap:20px">
+      <div class="kicker"><span>OpenType features</span><span class="rule"></span></div>
+      <p style="font-size:14px;font-weight:300;line-height:1.5;max-width:620px;margin:0">
+        Off by default. Turn them on from your app's typography or stylistic-set menu, or in CSS with
+        <code>font-feature-settings: "ss01"</code> (and so on). Each sample is shown off, then on.
+      </p>
+      {f.features.map((x) => (
+        <div class="ot-row">
+          <div class="stack" style="gap:4px">
+            <span class="up" style="font-size:13px;letter-spacing:.2em">{x.name}</span>
+            <span class="accent" style="font-size:11px;letter-spacing:.2em">{x.tag}</span>
+          </div>
+          <span style="font-size:14px;font-weight:300;line-height:1.5">{x.desc}</span>
+          <div class="ot-sample" style={`font-family:${f.css},'IDC Hesperapis';font-weight:${defaultW[0]}`}>
+            <span>{x.sample}</span>
+            <span class="accent" aria-hidden="true" style="font-family:'Josefin Sans',sans-serif;font-size:16px">→</span>
+            <span style={`font-feature-settings:"${x.tag}" 1`}>{x.sample}</span>
+          </div>
+        </div>
+      ))}
+    </section>
+  )}
 
   {f.specimen && (
     <section id="specimen" class="wrap stack" style="padding-top:72px;gap:20px">
@@ -169,7 +200,7 @@ const payload = {
       {others.map((o) => (
         <a href={`/typefaces/${o.slug}/`} class="frame">
           <div class="in arch-100" style={`background:${o.cardBg};color:${o.fg}`}>
-            <span class="g" style={`font-family:${o.css};font-weight:${o.heroW}`}>{face(o, SAMPLE_GLYPHS)}</span>
+            <span class="g" style={`font-family:${sampleGlyphs(o).css};font-weight:${o.heroW}`}>{sampleGlyphs(o).text}</span>
             <span class="n">{o.name}</span>
           </div>
         </a>

@@ -65,6 +65,9 @@ button{font-family:inherit}
 .nav-off{opacity:.4;cursor:not-allowed;user-select:none}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{width:38px;height:38px;filter:var(--logo-filter);mix-blend-mode:var(--logo-blend)}
+/* The logo is an opaque image blended into the page; fading the link would isolate it and show its black square, so fade its parts. */
+.brand:hover{opacity:1}
+.brand:hover img,.brand:hover span{opacity:.75}
 .brand span{font-weight:600;letter-spacing:.22em;color:var(--accent)}
 .menu{display:none}
 .menu summary{list-style:none;cursor:pointer;color:var(--accent);text-align:right}
@@ -147,6 +150,10 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outli
 .waterfall-row{display:grid;grid-template-columns:160px minmax(0,1fr);gap:24px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line-soft)}
 .waterfall-row .s{font-size:52px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:560px){.waterfall-row{grid-template-columns:1fr;gap:6px}.waterfall-row .s{font-size:40px}}
+.tester-note{margin:0;max-width:620px;font-size:13px;font-weight:300;line-height:1.5}
+.ot-row{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:24px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line-soft)}
+.ot-sample{display:flex;align-items:center;gap:18px;font-size:44px;line-height:1.2;color:var(--hi);white-space:nowrap}
+@media (max-width:720px){.ot-row{grid-template-columns:1fr;gap:8px}}
 .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
 .tier{text-align:left;cursor:pointer;color:var(--text);background:transparent;border:1px solid var(--line-mid);padding:22px 22px 20px;display:flex;flex-direction:column;gap:10px}
 .tier[aria-checked="true"]{background:var(--tint);border-color:var(--accent)}

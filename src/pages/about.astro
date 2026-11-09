@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { FAMILIES, SAMPLE_GLYPHS, face, wikiUrl } from '../data/catalog';
+import { FAMILIES, sampleGlyphs, wikiUrl } from '../data/catalog';
 
 const statusLabel = { avail: 'Available', free: 'Free', soon: 'Forthcoming' } as const;
 ---
@@ -8,7 +8,7 @@ const statusLabel = { avail: 'Available', free: 'Free', soon: 'Forthcoming' } as
 <Base title="About" active="about">
   <section class="wrap" style="padding-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;align-items:center">
     <div class="frame block" style="max-width:440px;width:100%;justify-self:center">
-      <div class="in arch-220 sunburst" style="padding:72px 40px 48px;display:flex;justify-content:center;background:repeating-conic-gradient(from 0deg at 50% 100%,rgba(201,162,74,.12) 0deg 4deg,transparent 4deg 9deg)">
+      <div class="in arch-220 sunburst" style="padding:72px 40px 48px;display:flex;justify-content:center;background:repeating-conic-gradient(from -2deg at 50% 100%,rgba(201,162,74,.12) 0deg 4deg,transparent 4deg 9deg)">
         <img src="/assets/wordmark.png" alt="Deseret Type Foundry monogram" style="width:100%;max-width:260px;height:auto;filter:var(--logo-filter);mix-blend-mode:var(--logo-blend)" />
       </div>
     </div>
@@ -29,7 +29,7 @@ const statusLabel = { avail: 'Available', free: 'Free', soon: 'Forthcoming' } as
         const Link = f.page ? 'a' : 'span';
         return (
         <div class="name-row">
-          <Link href={href} style={`font-family:${f.css};font-weight:${f.heroW};font-size:44px;line-height:1.2;color:${f.slug === 'hesperapis' ? '#fff' : f.fg};white-space:nowrap`}>{face(f, SAMPLE_GLYPHS)}</Link>
+          <Link href={href} style={`font-family:${sampleGlyphs(f).css};font-weight:${f.heroW};font-size:44px;line-height:1.2;color:${f.slug === 'hesperapis' ? '#fff' : f.fg};white-space:nowrap`}>{sampleGlyphs(f).text}</Link>
           <span class="stack" style="gap:4px">
             <a href={wikiUrl(f)} target="_blank" rel="noopener" class="up genus" style="font-size:18px;font-weight:600;letter-spacing:.22em" title={`${f.name} on Wikipedia`}>{f.name}<span aria-hidden="true"> ↗</span></a>
             <span style="font-size:14px;font-weight:300;font-style:italic">{f.note}</span>

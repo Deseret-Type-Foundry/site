@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { FAMILIES, HERO_LINE, SAMPLE_GLYPHS, face } from '../data/catalog';
+import { FAMILIES, HERO_LINE, sampleGlyphs } from '../data/catalog';
 
 const meta = (f: (typeof FAMILIES)[number]) =>
   `${f.style} · ${f.weights.length} weights`;
@@ -27,7 +27,7 @@ const meta = (f: (typeof FAMILIES)[number]) =>
             class="in arch-140"
             style={`background:${f.cardBg};${f.slug === 'hesperapis' ? 'border-color:#111;color:#111' : ''}`}
           >
-            <div class="glyphs" style={`font-family:${f.css};font-weight:${f.heroW};color:${f.fg}`}>{face(f, SAMPLE_GLYPHS)}</div>
+            <div class="glyphs" style={`font-family:${sampleGlyphs(f).css};font-weight:${f.heroW};color:${f.fg}`}>{sampleGlyphs(f).text}</div>
             <div class="name">{f.name}</div>
             <div class="meta" style={`color:${f.status === 'free' ? 'inherit' : f.fg}`}>
               {f.status === 'free' && (<><span>Historical · 1 weight</span><span class="tag" style="background:#111;color:#fff">Free</span></>)}

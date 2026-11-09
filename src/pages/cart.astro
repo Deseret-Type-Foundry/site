@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import { FAMILIES, SAMPLE_GLYPHS, face } from '../data/catalog';
+import { FAMILIES, SAMPLE_GLYPHS, sampleGlyphs } from '../data/catalog';
 
 const fams = Object.fromEntries(
-  FAMILIES.map((f) => [f.slug, { css: f.css, w: f.heroW, bg: f.cardBg, fg: f.fg, glyphs: face(f, SAMPLE_GLYPHS) }]),
+  FAMILIES.map((f) => [f.slug, { css: sampleGlyphs(f).css, w: f.heroW, bg: f.cardBg, fg: f.fg, glyphs: sampleGlyphs(f).text }]),
 );
 ---
 
