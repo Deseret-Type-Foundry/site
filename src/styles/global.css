@@ -7,6 +7,8 @@
 @font-face{font-family:"DTF Andrena";src:url(/fonts/Andrena-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:"DTF Andrena";src:url(/fonts/Andrena-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 @font-face{font-family:"DTF Andrena";src:url(/fonts/Andrena-Black.woff2) format("woff2");font-weight:900;font-display:swap}
+/* Capitals for the Home title only: 11 glyphs + space. Keep this file title-sized; scripts/check-fonts.py enforces it. */
+@font-face{font-family:"DTF Andrena Title";src:url(/fonts/Andrena-Black-Title.woff2) format("woff2");font-weight:900;font-display:swap}
 @font-face{font-family:"DTF Augochlora";src:url(/fonts/Augochlora-UltraThin.woff2) format("woff2");font-weight:100;font-display:swap}
 @font-face{font-family:"DTF Augochlora";src:url(/fonts/Augochlora-Thin.woff2) format("woff2");font-weight:200;font-display:swap}
 @font-face{font-family:"DTF Augochlora";src:url(/fonts/Augochlora-Normal.woff2) format("woff2");font-weight:400;font-display:swap}
@@ -123,7 +125,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outli
 .hero{position:relative;padding:90px var(--gutter) 80px;text-align:center;overflow:hidden;background:var(--sunburst)}
 .hero .rings{position:absolute;left:50%;bottom:-260px;width:520px;height:520px;margin-left:-260px;border-radius:50%;border:1px solid var(--line);box-shadow:0 0 0 22px var(--bg),0 0 0 23px rgba(201,162,74,.35),0 0 0 46px var(--bg),0 0 0 47px rgba(201,162,74,.2)}
 .hero .body{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px}
-.hero .line{font-family:'DTF Andrena';font-weight:900;font-size:clamp(56px,10vw,132px);line-height:1.05;color:var(--hi);text-wrap:balance}
+.hero .line{font-family:'DTF Andrena Title','DTF Andrena';font-weight:900;font-size:clamp(56px,10vw,132px);line-height:1.05;color:var(--hi);text-wrap:balance}
 .hero p{max-width:520px;font-size:18px;line-height:1.6;font-weight:300;text-wrap:pretty}
 .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));grid-auto-rows:1fr;gap:28px}
 .card .in{padding:34px 26px 26px;display:flex;flex-direction:column;align-items:center;gap:16px}

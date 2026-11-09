@@ -38,6 +38,11 @@ print-resolution originals. The guard fails the build if any raster image exceed
 Licensing, Cart and Account pages are built but unlinked and `noindex` (nav shows Account and Cart disabled). Add-to-cart is off while
 `STOREFRONT_OPEN` (src/data/catalog.ts) is false. `/stickers/` redirects to `/products/`.
 
+## Hero title (majuscules)
+The Home title is set in capitals from `Andrena-Black-Title.woff2` (soma's cut of Andrena Black: 11 capitals + space, 2,112 bytes), face `DTF Andrena Title`,
+falling back to the minuscule `DTF Andrena`. Change the wording in `HERO_LINE` (`src/data/catalog.ts`) only with letters that exist in that file;
+the guard allowlist (`ALLOWED_TITLE` in `scripts/check-fonts.py`) must be updated together with a re-cut font. It is the only DTF file allowed to carry capitals.
+
 ## Font guard
 `scripts/check-fonts.py dist` (also `npm run build && npm run check:fonts`; needs `pip install fonttools brotli`) fails the build/deploy if the
 built site ships anything but woff2 fonts, capitals in any face other than IDC Hesperapis, a full-size font in place of a preview subset,

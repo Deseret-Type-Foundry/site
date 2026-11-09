@@ -116,7 +116,9 @@ export const toCap = (s: string) => Array.from(s, (c) => { const cp = c.codePoin
 export const face = (f: Pick<Family, 'caps' | 'mins'>, s: string) => (!f.caps ? toMin(s) : !f.mins ? toCap(s) : s);
 
 export const SAMPLE_GLYPHS = '𐐔𐐓𐐙';
-export const HERO_LINE = '𐐔𐐯𐑅𐐨𐑉𐐯𐐻 𐐓𐐴𐐹 𐐙𐐵𐑌𐐼𐑉𐐨';
+// Majuscules on purpose: set in the title-only capitals subset (Andrena-Black-Title.woff2), NOT folded by face().
+// Every letter here must exist in that file (see ALLOWED_TITLE in scripts/check-fonts.py).
+export const HERO_LINE = '𐐔𐐇𐐝𐐀𐐡𐐇𐐓 𐐓𐐌𐐑 𐐙𐐍𐐤𐐔𐐡𐐀';
 
 export interface Tier {
   key: 'personal' | 'commercial' | 'enterprise';
