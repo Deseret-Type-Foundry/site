@@ -1,0 +1,100 @@
+---
+import '../styles/global.css';
+import { DEFAULT_THEME, type Theme } from '../data/catalog';
+
+interface Props {
+  title?: string;
+  description?: string;
+  active?: 'typefaces' | 'licensing' | 'about' | 'stickers' | 'account' | 'cart';
+  theme?: Theme;
+}
+const {
+  title,
+  description = 'Typefaces for the Deseret alphabet (U+10400–1044F).',
+  active,
+  theme = DEFAULT_THEME,
+} = Astro.props;
+
+const fullTitle = title ? `${title} · Deseret Type Foundry` : 'Deseret Type Foundry';
+const t = theme;
+const vars = [
+  `--bg:${t.bg}`, `--arch:${t.arch}`, `--text:${t.text}`, `--hi:${t.hi}`, `--accent:${t.accent}`,
+  `--border:${t.border}`, `--line:${t.line}`, `--line-mid:${t.lineMid}`, `--line-soft:${t.lineSoft}`,
+  `--tint:${t.tint}`, `--logo-filter:${t.logoFilter}`, `--logo-blend:${t.logoBlend}`,
+].join(';');
+
+const left = [
+  ['typefaces', '/', 'Typefaces'],
+  ['licensing', '/licensing/', 'Licensing'],
+  ['about', '/about/', 'About'],
+] as const;
+const right = [
+  ['stickers', '/stickers/', 'Stickers'],
+  ['account', '/account/', 'Account'],
+] as const;
+const cur = (k: string) => (k === active ? 'page' : undefined);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href="/assets/wordmark.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body style={vars}>
+    <div class="preview">
+      Preview — the storefront opens soon. Browse the typefaces and try the tester.
+    </div>
+    <header class="site-header">
+      <nav>
+        {left.map(([k, href, label]) => <a href={href} aria-current={cur(k)}>{label}</a>)}
+      </nav>
+      <a href="/" class="brand">
+        <img src="/assets/wordmark.png" alt="DTF" />
+        <span>Deseret Type Foundry</span>
+      </a>
+      <nav class="r">
+        {right.map(([k, href, label]) => <a href={href} aria-current={cur(k)}>{label}</a>)}
+        <a href="/cart/" aria-current={cur('cart')}>Cart<span data-cart-count></span></a>
+      </nav>
+      <details class="menu">
+        <summary>Menu</summary>
+        <div class="panel">
+          {left.map(([k, href, label]) => <a href={href} aria-current={cur(k)}>{label}</a>)}
+          {right.map(([k, href, label]) => <a href={href} aria-current={cur(k)}>{label}</a>)}
+          <a href="/cart/" aria-current={cur('cart')}>Cart<span data-cart-count></span></a>
+        </div>
+      </details>
+    </header>
+
+    <main><slot /></main>
+
+    <footer class="site-footer">
+      <span>deseret.ink</span>
+      <span class="links">
+        <a href="/licensing/">EULA</a>
+        <a href="/about/#contact">Contact</a>
+        <a href="https://x.com/DeseretType" target="_blank" rel="noopener">@DeseretType</a>
+      </span>
+    </footer>
+
+    <script>
+      import { count } from '../scripts/cart';
+      const n = count();
+      document.querySelectorAll('[data-cart-count]').forEach((el) => {
+        el.textContent = n ? ` · ${n}` : '';
+      });
+    </script>
+  </body>
+</html>

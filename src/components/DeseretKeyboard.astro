@@ -1,0 +1,152 @@
+---
+// On-screen Deseret keyboard in the IDC Deseret layout. Types into the textarea named by `target`.
+// Keycaps: Latin key top-left, Deseret glyph in IDC Hesperapis, keyword (with the letters that spell the sound
+// underlined) beneath, set in the UI face.
+import { ROWS, ALT, ALT_KEYWORDS, keywordFor } from '../data/idcKeyboard';
+
+interface Props { target?: string; minuscule?: boolean }
+const { target = 'tester-text', minuscule = false } = Astro.props;
+
+const KEYMAN_URL = 'https://keyman.com/keyboards/idc_deseret';
+const TRANSLATOR_URL = 'https://2deseret.com/';
+
+// "FA[D]E" -> [["FA",false],["D",true],["E",false]]
+const parts = (kw: string) =>
+  kw.split(/(\[[A-Z]+\])/).filter(Boolean).map((p) => (p.startsWith('[') ? [p.slice(1, -1), true] : [p, false]) as [string, boolean]);
+
+const rows = ROWS.map((r) =>
+  r.map((k) => ({ ...k, alt: ALT[k.code] ?? null, kw: parts(keywordFor(k)), kwText: keywordFor(k).replace(/[\[\]]/g, ''), altKw: ALT_KEYWORDS[k.code] ? parts(ALT_KEYWORDS[k.code]) : null })),
+);
+---
+
+<div class="dk" data-target={target} data-minuscule={minuscule ? '1' : undefined}>
+  <div class="dk-head">
+    <span class="small-label">Deseret keyboard · IDC Deseret layout</span>
+    <span class="note">
+      Type on your keyboard (cursor in the tester above) or click the keys. Shift gives capitals; AltGr (Right Alt / Option) gives digits and symbols.
+    </span>
+  </div>
+  <div class="dk-board" role="group" aria-label="On-screen Deseret keyboard">
+    {rows.map((row, i) => (
+      <div class="dk-row">
+        {i === 3 && <button type="button" class="dk-mod" data-mod="shift" aria-pressed="false">Shift</button>}
+        {row.map((k) => (
+          <button type="button" class="dk-key" data-code={k.code} aria-label={`${k.latin}: ${k.kwText}`}>
+            <span class="lat">{k.latin}</span>
+            <span class="g" data-g></span>
+            <span class="kw" data-kw>{k.kw.map(([t, u]) => (u ? <u>{t}</u> : t))}</span>
+            {k.altKw && <span class="kw altkw">{k.altKw.map(([t, u]) => (u ? <u>{t}</u> : t))}</span>}
+            {k.alt && <span class="al" data-alt></span>}
+          </button>
+        ))}
+        {i === 3 && <button type="button" class="dk-mod" data-mod="alt" aria-pressed="false">AltGr</button>}
+      </div>
+    ))}
+  </div>
+  {minuscule && (
+    <p class="note">This preview typeface has minuscules only, so Shift types minuscules here too.</p>
+  )}
+  <p class="note">
+    Ligatures: 𐐱 + j → 𐑎, 𐐉 + j → 𐐦, 𐐭 + j → 𐑏, 𐐅 + j → 𐐧. Underlined letters show which spelling in the keyword stands for the sound.
+    Keywords from <i>The Deseret Alphabet</i> (Shosted &amp; Davis).
+    For system-wide typing, get <a href={KEYMAN_URL} target="_blank" rel="noopener" class="dk-link">IDC Deseret on Keyman ↗</a>;
+    to convert English, try <a href={TRANSLATOR_URL} target="_blank" rel="noopener" class="dk-link">2deseret ↗</a>.
+  </p>
+</div>
+
+<style>
+  /* Keys scale with the container so all four rows fit at any width (11 keys + 10 gaps = widest row). */
+  .dk{display:flex;flex-direction:column;gap:14px;margin-top:28px;container-type:inline-size}
+  .dk-head{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;justify-content:space-between}
+  .dk-board{--gap:5px;--w:clamp(30px,calc((100cqw - 10 * var(--gap)) / 11),88px);display:flex;flex-direction:column;gap:var(--gap)}
+  .dk-row{display:flex;gap:var(--gap)}
+  .dk-row:nth-child(2){margin-left:calc(var(--w) * .42)}
+  .dk-row:nth-child(3){margin-left:calc(var(--w) * .62)}
+  .dk-key,.dk-mod{position:relative;flex:none;height:calc(var(--w) * .93);width:var(--w);background:transparent;color:var(--text);border:1px solid var(--border);cursor:pointer;padding:0;font-family:'Josefin Sans',sans-serif}
+  .dk-mod{font-size:max(8px,calc(var(--w) * .13));letter-spacing:.14em;text-transform:uppercase}
+  .dk-mod[data-mod="shift"]{width:calc(var(--w) * 1.25)}
+  .dk-key .lat{position:absolute;top:4px;left:6px;font-size:max(8px,calc(var(--w) * .12));letter-spacing:.1em;color:var(--accent)}
+  .dk-key .g{display:block;font-family:'IDC Hesperapis';font-size:calc(var(--w) * .36);line-height:1;padding-top:calc(var(--w) * .2)}
+  .dk-key .kw{position:absolute;left:0;right:0;bottom:calc(var(--w) * .08);font-size:max(7px,calc(var(--w) * .098));letter-spacing:.08em;white-space:nowrap}
+  .dk-key .kw u{text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+  .dk-key .al{position:absolute;top:4px;right:6px;font-size:max(8px,calc(var(--w) * .13));opacity:.55}
+  .dk-key .altkw{display:none}
+  .dk-key.alt .kw{visibility:hidden}
+  .dk-key.alt .altkw{display:block;visibility:visible}
+  .dk-key.alt:has(.altkw) [data-kw]:not(.altkw){display:none}
+  .dk-key.down,.dk-mod[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+  .dk-key.down .lat{color:var(--bg)}
+  .dk-link{color:var(--accent);text-decoration:underline}
+  @container (max-width: 700px){ .dk-key .kw{display:none} .dk-key .g{padding-top:calc(var(--w) * .26)} }
+</style>
+
+<script>
+  import { ROWS, ALT, resolve } from '../data/idcKeyboard';
+  import { toMin } from '../data/catalog';
+
+  const root = document.querySelector<HTMLElement>('.dk')!;
+  const fold = root.dataset.minuscule === '1'; // face has no capitals: never emit them
+  const ta = document.getElementById(root.dataset.target!) as HTMLTextAreaElement | null;
+  const sticky = { shift: false, alt: false };
+  const phys = { shift: false, alt: false };
+  const mods = () => ({ shift: sticky.shift || phys.shift, alt: sticky.alt || phys.alt });
+  const keys = new Map(ROWS.flat().map((k) => [k.code, k]));
+
+  function paint() {
+    const m = mods();
+    root.querySelectorAll<HTMLElement>('.dk-key').forEach((el) => {
+      const k = keys.get(el.dataset.code!)!;
+      const a = ALT[k.code];
+      el.classList.toggle('alt', m.alt);
+      el.querySelector('[data-g]')!.textContent = m.alt ? (a ? a[m.shift ? 1 : 0] : '·') : m.shift && !fold ? k.upper : k.lower;
+      const al = el.querySelector('[data-alt]');
+      if (al && a) al.textContent = m.alt ? '' : a[m.shift ? 1 : 0];
+    });
+    root.querySelectorAll<HTMLElement>('.dk-mod').forEach((b) =>
+      b.setAttribute('aria-pressed', String(sticky[b.dataset.mod as 'shift' | 'alt'])));
+  }
+
+  function insert(code: string): boolean {
+    if (!ta) return false;
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    const r = resolve(code, mods(), ta.value.slice(0, start));
+    if (!r) return false;
+    ta.setRangeText(fold ? toMin(r.insert) : r.insert, start - r.remove, end, 'end');
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  }
+
+  const keyEl = (code: string) => root.querySelector<HTMLElement>(`.dk-key[data-code="${code}"]`);
+
+  if (ta) {
+    ta.addEventListener('keydown', (e) => {
+      if (e.isComposing) return;
+      phys.shift = e.shiftKey;
+      phys.alt = e.altKey; // any Alt, and Windows' Ctrl+Alt (= AltGr); plain Ctrl/Cmd shortcuts pass through
+      if ((e.ctrlKey && !e.altKey) || e.metaKey) { paint(); return; }
+      keyEl(e.code)?.classList.add('down');
+      if (insert(e.code)) e.preventDefault();
+      paint();
+    });
+    ta.addEventListener('keyup', (e) => {
+      phys.shift = e.shiftKey; phys.alt = e.altKey;
+      keyEl(e.code)?.classList.remove('down');
+      paint();
+    });
+    ta.addEventListener('blur', () => {
+      phys.shift = phys.alt = false;
+      root.querySelectorAll('.dk-key.down').forEach((el) => el.classList.remove('down'));
+      paint();
+    });
+  }
+
+  root.querySelectorAll<HTMLElement>('.dk-key').forEach((el) =>
+    el.addEventListener('click', () => { ta?.focus(); insert(el.dataset.code!); }));
+  root.querySelectorAll<HTMLElement>('.dk-mod').forEach((el) =>
+    el.addEventListener('click', () => {
+      const m = el.dataset.mod as 'shift' | 'alt';
+      sticky[m] = !sticky[m];
+      paint();
+    }));
+  paint();
+</script>

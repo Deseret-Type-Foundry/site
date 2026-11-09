@@ -1,0 +1,305 @@
+---
+import Base from '../../layouts/Base.astro';
+import DeseretKeyboard from '../../components/DeseretKeyboard.astro';
+import { FAMILIES, TIERS, SAMPLE, SAMPLE_GLYPHS, bySlug, face } from '../../data/catalog';
+
+export function getStaticPaths() {
+  return FAMILIES.filter((f) => f.page).map((f) => ({ params: { slug: f.slug } }));
+}
+
+const f = bySlug(Astro.params.slug!)!;
+const sample = face(f, SAMPLE);
+const glyphs = face(f, SAMPLE_GLYPHS);
+const others = FAMILIES.filter((x) => x.page && x.slug !== f.slug);
+const defaultW = f.weights.find((w) => w[0] === 400) ?? f.weights[0];
+const cta = f.status === 'avail' ? 'Buy a license' : f.status === 'free' ? 'Download free' : 'Get notified';
+const buyHeading = f.status === 'avail' ? `License ${f.name}` : f.status === 'free' ? 'Download' : 'Release';
+const payload = {
+  slug: f.slug, prefix: f.prefix, name: f.name, css: f.css, status: f.status,
+  weights: f.weights, defaultW: defaultW[0], sample, tiers: TIERS,
+};
+---
+
+<Base
+  title={`${f.prefix} ${f.name}`}
+  description={f.blurb}
+  active="typefaces"
+  theme={f.theme}
+>
+  <section class="wrap stack" style="padding-top:28px;gap:36px">
+    <div class="up" style="font-size:11px;letter-spacing:.22em;color:var(--accent);display:flex;gap:10px">
+      <a href="/">Typefaces</a><span>/</span><span style="color:var(--text)">{f.name}</span>
+    </div>
+    <div class="fam-hero">
+      <div class="stack" style="gap:14px;padding-bottom:8px">
+        <span class="label">{f.prefix}</span>
+        <h1>{f.name}</h1>
+        <p style="font-size:17px;font-weight:300;line-height:1.6;max-width:360px;text-wrap:pretty">{f.blurb}</p>
+      </div>
+      <div class="frame block" style="min-width:0">
+        <div
+          class="arch-220"
+          style={`border:1px solid var(--line);background:var(--arch);color:${f.fg};display:flex;align-items:center;justify-content:center;padding:70px 20px 40px;overflow:hidden`}
+        >
+          <span style={`font-family:${f.css};font-weight:${f.heroW};font-size:clamp(90px,11vw,170px);line-height:1.15;white-space:nowrap`}>{glyphs}</span>
+        </div>
+      </div>
+      <div class="spec">
+        <div class="row"><span>Style</span><span>{f.style}</span></div>
+        <div class="row"><span>Weights</span><span>{f.weights.length === 1 ? '1 weight' : `${f.weights.length} weights`}</span></div>
+        <div class="row"><span>Script</span><span>Deseret, U+10400–1044F</span></div>
+        <div class="row"><span>Formats</span><span>OTF · WOFF2</span></div>
+        <a href="#buy" class="btn" style="margin-top:20px;align-self:flex-start">{cta}</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="tester" class="wrap stack" style="padding-top:72px;gap:20px">
+    <div class="kicker"><span>Type tester</span><span class="rule"></span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:20px 32px;align-items:center;justify-content:space-between">
+      <div id="weight-chips" style="display:flex;flex-wrap:wrap;gap:8px" role="group" aria-label="Weight"></div>
+      <label class="small-label" style="display:flex;align-items:center;gap:14px">
+        Size
+        <input id="size" type="range" min="24" max="200" value="72" style="width:200px;padding:0;border:none;accent-color:var(--accent)" />
+        <span id="size-out" style="width:52px;color:var(--text)">72 px</span>
+      </label>
+    </div>
+    <div class="frame block">
+      <textarea id="tester-text" class="tester-ta" spellcheck="false" rows="3" aria-label="Tester text"
+        style={`font-family:${f.css},'IDC Hesperapis';font-weight:${defaultW[0]};font-size:72px`}>{sample}</textarea>
+    </div>
+    <div class="small-label" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <span id="caption" style="white-space:nowrap"></span>
+      <button id="reset" class="link">Reset text</button>
+    </div>
+    <DeseretKeyboard target="tester-text" minuscule={!f.caps} />
+  </section>
+
+  <section class="wrap stack" style="padding-top:72px">
+    <div class="kicker" style="margin-bottom:20px"><span>Weights</span><span class="rule"></span></div>
+    {f.weights.map(([w, label]) => (
+      <div class="waterfall-row">
+        <div class="stack" style="gap:4px">
+          <span class="up" style="font-size:13px;letter-spacing:.2em">{label}</span>
+          <span class="accent" style="font-size:11px;letter-spacing:.2em">{w}</span>
+        </div>
+        <div class="s" data-waterfall style={`font-family:${f.css},'IDC Hesperapis';font-weight:${w}`}>{sample}</div>
+      </div>
+    ))}
+  </section>
+
+  {f.specimen && (
+    <section id="specimen" class="wrap stack" style="padding-top:72px;gap:20px">
+      <div class="kicker"><span>Specimen</span><span class="rule"></span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between">
+        <span style="font-size:14px;font-weight:300;line-height:1.5;max-width:560px">
+          The full specimen of {f.prefix} {f.name}: every glyph, majuscules and minuscules, a page per weight.
+        </span>
+        <a href={f.specimen} download={`${f.prefix}-${f.name}-Specimen.pdf`} class="btn">Download PDF</a>
+      </div>
+      <div class="frame block">
+        <object data={`${f.specimen}#view=FitH`} type="application/pdf" class="spec-embed" aria-label={`${f.name} specimen (PDF)`}>
+          <div class="stack" style="padding:40px 24px;gap:14px;align-items:flex-start">
+            <span style="font-size:15px;font-weight:300">Your browser can't show the PDF inline.</span>
+            <a href={f.specimen} class="btn-line">Open the specimen PDF</a>
+          </div>
+        </object>
+      </div>
+    </section>
+  )}
+
+  <section id="buy" class="wrap stack" style="padding-top:72px;padding-bottom:72px;gap:24px">
+    <div class="kicker"><span>{buyHeading}</span><span class="rule"></span></div>
+
+    {f.status === 'avail' && (
+      <>
+        <div class="tiers" role="radiogroup" aria-label="License tier">
+          {TIERS.map((t) => (
+            <button class="tier" role="radio" aria-checked={t.key === 'commercial'} data-tier={t.key}>
+              <span class="top"><span class="nm">{t.name}</span><span class="dot"></span></span>
+              <span class="d">{t.desc}</span>
+              <span class="p">{t.family == null ? 'Contact us' : `$${t.weight} per weight · $${t.family} family`}</span>
+            </button>
+          ))}
+        </div>
+        <div class="stack" style="gap:12px;margin-top:8px">
+          <span class="small-label" style="letter-spacing:.24em">Package</span>
+          <div id="pkg-chips" style="display:flex;flex-wrap:wrap;gap:8px" role="group" aria-label="Package"></div>
+        </div>
+        <div class="buybar">
+          <div class="stack" style="gap:6px">
+            <span id="summary" style="font-size:13px;letter-spacing:.12em"></span>
+            <span class="small-label">Placeholder prices · payment provider to be confirmed</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:24px">
+            <span id="total" class="total"></span>
+            <button id="add" class="btn" style="padding:15px 24px 13px"></button>
+          </div>
+        </div>
+      </>
+    )}
+
+    {f.status === 'free' && (
+      <div class="panel-free">
+        <div class="stack" style="gap:8px;max-width:560px">
+          <span class="up" style="font-size:18px;font-weight:600;letter-spacing:.2em">Free for everyone</span>
+          <span style="font-size:15px;line-height:1.5">IDC Hesperapis was drawn for the Illinois Deseret Consortium. Add it to your cart at $0.00 and check out with a registered account to download.</span>
+        </div>
+        <button id="add" class="btn" style="padding:15px 24px 13px"></button>
+      </div>
+    )}
+
+    {f.status === 'soon' && (
+      <div class="panel-line">
+        <div class="stack" style="gap:8px;max-width:520px">
+          <span class="up" style="font-size:18px;font-weight:600;letter-spacing:.2em">Forthcoming</span>
+          <span style="font-size:15px;font-weight:300;line-height:1.5">{f.name} is still in the workshop. Leave your email and we'll write when it's released.</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <input type="email" placeholder="you@example.com" disabled style="width:240px" aria-label="Email" />
+          <button class="btn" disabled style="padding:15px 22px 13px">Opens at launch</button>
+        </div>
+      </div>
+    )}
+  </section>
+
+  <section class="wrap stack" style="padding-bottom:72px;gap:24px">
+    <div class="kicker"><span>More from the foundry</span><span class="rule"></span></div>
+    <div class="more">
+      {others.map((o) => (
+        <a href={`/typefaces/${o.slug}/`} class="frame">
+          <div class="in arch-100" style={`background:${o.cardBg};color:${o.fg}`}>
+            <span class="g" style={`font-family:${o.css};font-weight:${o.heroW}`}>{face(o, SAMPLE_GLYPHS)}</span>
+            <span class="n">{o.name}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <script type="application/json" id="fam-data" set:html={JSON.stringify(payload)} />
+
+  <script>
+    import { priceFor, type Tier } from '../../data/catalog';
+    import { read, write, count, type CartItem } from '../../scripts/cart';
+
+    type W = [number, string];
+    const d = JSON.parse(document.getElementById('fam-data')!.textContent!) as {
+      slug: string; prefix: string; name: string; css: string; status: 'avail' | 'free' | 'soon';
+      weights: W[]; defaultW: number; sample: string; tiers: Tier[];
+    };
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
+
+    /* ---- Tester ---- */
+    let weight = d.defaultW;
+    let size = 72;
+    const ta = $<HTMLTextAreaElement>('tester-text')!;
+    const chips = $('weight-chips')!;
+    const caption = $('caption')!;
+
+    function paintTester() {
+      const wName = d.weights.find((w) => w[0] === weight)![1];
+      ta.style.fontWeight = String(weight);
+      ta.style.fontSize = size + 'px';
+      $('size-out')!.textContent = size + ' px';
+      caption.textContent = `${d.prefix} ${d.name} ${wName} · ${size} px · click the text to edit`;
+      chips.querySelectorAll('button').forEach((b) =>
+        b.setAttribute('aria-pressed', String(Number(b.dataset.w) === weight)),
+      );
+    }
+    d.weights.forEach(([w, label]) => {
+      const b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = label;
+      b.dataset.w = String(w);
+      b.addEventListener('click', () => { weight = w; paintTester(); });
+      chips.append(b);
+    });
+    $<HTMLInputElement>('size')!.addEventListener('input', (e) => {
+      size = +(e.target as HTMLInputElement).value;
+      paintTester();
+    });
+    const syncWaterfall = () =>
+      document.querySelectorAll('[data-waterfall]').forEach((el) => (el.textContent = ta.value));
+    ta.addEventListener('input', syncWaterfall);
+    $('reset')!.addEventListener('click', () => { ta.value = d.sample; syncWaterfall(); });
+    paintTester();
+
+    /* ---- Buy ---- */
+    const add = $<HTMLButtonElement>('add');
+    if (add && d.status !== 'soon') {
+      let tierKey: Tier['key'] = 'commercial';
+      let sel: ('family' | number)[] = ['family'];
+      let added = false;
+      const pkgChips = $('pkg-chips');
+
+      const state = () => {
+        const tier = d.tiers.find((t) => t.key === tierKey)!;
+        const whole = sel.includes('family');
+        const n = whole ? d.weights.length : sel.length;
+        const total = d.status === 'free' ? 0 : priceFor(tier, n, whole);
+        const pkg = d.status === 'free' ? 'Regular'
+          : whole ? 'Complete family'
+          : d.weights.filter((w) => sel.includes(w[0])).map((w) => w[1]).join(', ');
+        return { tier, whole, n, total, pkg };
+      };
+
+      const paint = () => {
+        const { tier, whole, n, total } = state();
+        if (d.status === 'avail') {
+          document.querySelectorAll<HTMLElement>('.tier').forEach((el) =>
+            el.setAttribute('aria-checked', String(el.dataset.tier === tierKey)));
+          pkgChips!.querySelectorAll('button').forEach((b) =>
+            b.setAttribute('aria-pressed', String(b.dataset.k === 'family' ? whole : !whole && sel.includes(Number(b.dataset.k)))));
+          $('summary')!.textContent =
+            `${d.prefix} ${d.name} · ${whole ? 'Complete family' : n + (n === 1 ? ' weight' : ' weights')} · ${tier.name} license`;
+          $('total')!.textContent = total == null ? 'Quote' : '$' + total;
+          add.textContent = tier.family == null ? 'Contact us' : added ? 'Added · view cart' : 'Add to cart';
+        } else {
+          add.textContent = added ? 'Added · view cart' : 'Add to cart · $0.00';
+        }
+      };
+
+      if (d.status === 'avail') {
+        const mk = (k: 'family' | number, label: string) => {
+          const b = document.createElement('button');
+          b.className = 'chip';
+          b.dataset.k = String(k);
+          b.textContent = label;
+          b.addEventListener('click', () => {
+            if (k === 'family') sel = ['family'];
+            else {
+              let s = sel.filter((x) => x !== 'family');
+              s = s.includes(k) ? s.filter((x) => x !== k) : [...s, k];
+              sel = !s.length || s.length === d.weights.length ? ['family'] : s;
+            }
+            added = false;
+            paint();
+          });
+          pkgChips!.append(b);
+        };
+        mk('family', `Complete family · ${d.weights.length}`);
+        d.weights.forEach(([w, l]) => mk(w, l));
+        document.querySelectorAll<HTMLElement>('.tier').forEach((el) =>
+          el.addEventListener('click', () => { tierKey = el.dataset.tier as Tier['key']; added = false; paint(); }));
+      }
+
+      add.addEventListener('click', () => {
+        const { tier, whole, n, total, pkg } = state();
+        if (d.status === 'avail' && tier.family == null) { location.href = '/about/#contact'; return; }
+        if (added) { location.href = '/cart/'; return; }
+        const free = d.status === 'free';
+        const item: CartItem = {
+          id: Date.now(), fam: d.slug, prefix: d.prefix, name: d.name, pkg,
+          weights: whole ? d.weights.length : n,
+          tier: free ? 'Free' : tier.name, tierKey: free ? 'free' : tier.key, price: total ?? 0,
+        };
+        write([...read(), item]);
+        added = true;
+        document.querySelectorAll('[data-cart-count]').forEach((el) => (el.textContent = ` · ${count()}`));
+        paint();
+      });
+      paint();
+    }
+  </script>
+</Base>

@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import { FAMILIES, SAMPLE_GLYPHS, face } from '../data/catalog';
+
+const statusLabel = { avail: 'Available', free: 'Free', soon: 'Forthcoming' } as const;
+---
+
+<Base title="About" active="about">
+  <section class="wrap" style="padding-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;align-items:center">
+    <div class="frame block" style="max-width:440px;width:100%;justify-self:center">
+      <div class="in arch-220 sunburst" style="padding:72px 40px 48px;display:flex;justify-content:center;background:repeating-conic-gradient(from 0deg at 50% 100%,rgba(201,162,74,.12) 0deg 4deg,transparent 4deg 9deg)">
+        <img src="/assets/wordmark.png" alt="Deseret Type Foundry monogram" style="width:100%;max-width:260px;height:auto;filter:var(--logo-filter);mix-blend-mode:var(--logo-blend)" />
+      </div>
+    </div>
+    <div class="stack" style="gap:22px">
+      <span class="label" style="letter-spacing:.4em">About the foundry</span>
+      <h1 style="font-size:clamp(30px,4vw,48px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;line-height:1.15;text-wrap:balance">Lorem ipsum dolor sit amet</h1>
+      <p style="font-size:17px;font-weight:300;line-height:1.7;text-wrap:pretty">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p style="font-size:17px;font-weight:300;line-height:1.7;text-wrap:pretty">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
+    </div>
+  </section>
+
+  <section class="wrap stack" style="padding-top:80px;gap:24px">
+    <div class="kicker"><span>The names</span><span class="rule"></span></div>
+    <p style="max-width:640px;font-size:16px;font-weight:300;line-height:1.65">Each family is named for a genus of bee. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <div class="names stack">
+      {FAMILIES.map((f) => {
+        const Row = f.page ? 'a' : 'div';
+        return (
+        <Row href={f.page ? `/typefaces/${f.slug}/` : undefined}>
+          {f.page ? <span style={`font-family:${f.css};font-weight:${f.heroW};font-size:44px;line-height:1.2;color:${f.slug === 'hesperapis' ? '#fff' : f.fg};white-space:nowrap`}>{face(f, SAMPLE_GLYPHS)}</span> : <span></span>}
+          <span class="stack" style="gap:4px">
+            <span class="up" style="font-size:18px;font-weight:600;letter-spacing:.22em">{f.name}</span>
+            <span style="font-size:14px;font-weight:300;font-style:italic">{f.note}</span>
+          </span>
+          <span class="small-label" style="white-space:nowrap">{statusLabel[f.status]}</span>
+        </Row>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="wrap boxes" style="padding-top:80px;padding-bottom:80px">
+    <div class="frame"><div class="in box">
+      <span class="label">Illinois Deseret Consortium</span>
+      <p style="font-size:15px;font-weight:300;line-height:1.65">IDC Hesperapis was drawn for the Illinois Deseret Consortium and is free to download. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <a href="/typefaces/hesperapis/" class="small-label" style="align-self:flex-start;border-bottom:1px solid var(--accent);padding-bottom:2px;white-space:nowrap;color:var(--text)">Get Hesperapis</a>
+    </div></div>
+
+    <div id="contact" class="frame" style="scroll-margin-top:24px"><div class="in box" style="gap:12px">
+      <span class="label">Contact</span>
+      <p style="font-size:15px;font-weight:300;line-height:1.65">Licensing questions, Enterprise quotes, custom work and press.</p>
+      <!-- Preview: no backend yet. At launch this POSTs to /api/contact (server-side forward; the destination
+           address lives only in server env, never in this HTML). -->
+      <input type="email" placeholder="Your email" disabled aria-label="Your email" />
+      <textarea rows="4" placeholder="Message" disabled aria-label="Message" style="resize:vertical"></textarea>
+      <button class="btn" disabled style="align-self:flex-start;padding:12px 18px 10px;font-size:11px">Opens at launch</button>
+      <span class="note">The contact form isn't live in the preview. For now, find us on X.</span>
+      <a href="https://x.com/DeseretType" target="_blank" rel="noopener" class="small-label" style="margin-top:auto">Find us on X · @DeseretType</a>
+    </div></div>
+
+    <div class="frame"><div class="in box">
+      <span class="label">Newsletter</span>
+      <p style="font-size:15px;font-weight:300;line-height:1.65">New releases, a few times a year.</p>
+      <div style="display:flex">
+        <input type="email" placeholder="you@example.com" disabled aria-label="Email" style="flex:1;border-right:none" />
+        <button class="btn" disabled style="padding:12px 16px 10px;font-size:11px">Opens at launch</button>
+      </div>
+    </div></div>
+  </section>
+</Base>

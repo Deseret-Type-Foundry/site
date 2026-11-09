@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { FAMILIES, HERO_LINE, SAMPLE_GLYPHS, face } from '../data/catalog';
+
+const meta = (f: (typeof FAMILIES)[number]) =>
+  `${f.style} · ${f.weights.length} weights`;
+---
+
+<Base active="typefaces">
+  <div class="hero">
+    <div class="rings"></div>
+    <div class="body">
+      <div class="ckicker"><i></i>Typefaces for the Deseret alphabet<i></i></div>
+      <h1 class="line" style="font-weight:200">{face(FAMILIES[0], HERO_LINE)}</h1>
+      <p>Three families drawn in the spirit of the 1920s, named for genera of North American bees.</p>
+    </div>
+  </div>
+
+  <div class="wrap stack" style="padding-top:64px;padding-bottom:56px;gap:32px">
+    <div class="kicker"><span>The collection</span><span class="rule"></span></div>
+    <div class="grid-cards">
+      {FAMILIES.map((f) => f.page ? (
+        <a href={`/typefaces/${f.slug}/`} class="frame card">
+          <div
+            class="in arch-140"
+            style={`background:${f.cardBg};${f.slug === 'hesperapis' ? 'border-color:#111;color:#111' : ''}`}
+          >
+            <div class="glyphs" style={`font-family:${f.css};font-weight:${f.heroW};color:${f.fg}`}>{face(f, SAMPLE_GLYPHS)}</div>
+            <div class="name">{f.name}</div>
+            <div class="meta" style={`color:${f.status === 'free' ? 'inherit' : f.fg}`}>
+              {f.status === 'free' && (<><span>IDC · 1 weight</span><span class="tag" style="background:#111;color:#fff">Free</span></>)}
+              {f.status === 'soon' && (<><span>{f.weights.length} weights</span><span class="tag" style={`border:1px solid ${f.fg}`}>Forthcoming</span></>)}
+              {f.status === 'avail' && <span>{meta(f)}</span>}
+            </div>
+          </div>
+        </a>
+      ) : (
+        <div class="frame dashed">
+          <div class="in arch-140" style="padding:34px 26px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+            <div style="font-size:22px;font-weight:600;letter-spacing:.28em;text-transform:uppercase">{f.name}</div>
+            <div class="label">Forthcoming</div>
+          </div>
+        </div>
+      ))}
+      <div class="frame dashed">
+        <div class="in arch-140" style="padding:34px 26px 26px;display:flex;align-items:center;justify-content:center">
+          <div class="label">Forthcoming</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="teaser">
+    <img src="/assets/sticker-pu.png" alt="Plutonium sticker" style="transform:rotate(-4deg)" />
+    <div class="stack" style="align-items:center;gap:8px;text-align:center">
+      <span class="label">Also in the shop</span>
+      <span style="font-size:20px;font-weight:300">Periodic-table stickers</span>
+      <a href="/stickers/" class="up" style="font-size:12px;letter-spacing:.2em;text-decoration:underline">Browse</a>
+    </div>
+    <img src="/assets/sticker-ag.png" alt="Silver sticker" style="transform:rotate(4deg)" />
+  </div>
+</Base>

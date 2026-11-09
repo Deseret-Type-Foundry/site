@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import { FAMILIES, SAMPLE_GLYPHS, face } from '../data/catalog';
+
+const fams = Object.fromEntries(
+  FAMILIES.map((f) => [f.slug, { css: f.css, w: f.heroW, bg: f.cardBg, fg: f.fg, glyphs: face(f, SAMPLE_GLYPHS) }]),
+);
+---
+
+<Base title="Cart" active="cart">
+  <div class="wrap-narrow stack" style="padding-top:40px;padding-bottom:72px;gap:36px">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px">
+      <h1 style="font-size:clamp(30px,4vw,44px);font-weight:600;letter-spacing:.2em;text-transform:uppercase">Cart</h1>
+      <div class="steps" aria-label="Checkout steps">
+        <span class="step cur"><span class="d"><b>1</b></span>Cart</span><span class="sep"></span>
+        <span class="step"><span class="d"><b>2</b></span>Checkout</span><span class="sep"></span>
+        <span class="step"><span class="d"><b>3</b></span>Download</span>
+      </div>
+    </div>
+
+    <div id="empty" class="frame block" hidden>
+      <div class="in stack" style="padding:64px 32px;align-items:center;gap:18px;text-align:center">
+        <span class="label">Your cart is empty</span>
+        <span style="font-size:18px;font-weight:300">Browse the collection, or pick up IDC Hesperapis for free.</span>
+        <a href="/" class="btn">See typefaces</a>
+      </div>
+    </div>
+
+    <div id="full" class="cart-grid" hidden>
+      <div class="items stack">
+        <div id="rows"></div>
+        <a href="/" class="small-label" style="margin-top:20px;letter-spacing:.22em">← Continue browsing</a>
+      </div>
+      <aside class="frame block" style="min-width:0">
+        <div class="in sum">
+          <span class="label">Summary</span>
+          <div class="r"><span>Subtotal</span><span class="subtotal"></span></div>
+          <div class="r"><span>Tax</span><span style="font-weight:300">At payment</span></div>
+          <div class="r" style="align-items:baseline;border-top:1px solid var(--line);padding-top:14px">
+            <span class="up" style="font-size:12px;letter-spacing:.24em">Total</span>
+            <span class="subtotal" style="font-size:32px;font-weight:300"></span>
+          </div>
+          <button class="btn" disabled style="padding:16px 20px 14px">Checkout opens at launch</button>
+          <span class="note" style="text-align:center">
+            This is a preview: your cart is saved in this browser only, and nothing can be purchased yet.
+          </span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script type="application/json" id="fams" set:html={JSON.stringify({ fams, glyphs: SAMPLE_GLYPHS })} />
+
+  <script>
+    import { read, write, money } from '../scripts/cart';
+    const { fams, glyphs } = JSON.parse(document.getElementById('fams')!.textContent!);
+
+    function render() {
+      const items = read();
+      document.getElementById('empty')!.hidden = items.length > 0;
+      document.getElementById('full')!.hidden = items.length === 0;
+      document.querySelectorAll('[data-cart-count]').forEach((el) => (el.textContent = items.length ? ` · ${items.length}` : ''));
+      const total = items.reduce((a, b) => a + (b.price || 0), 0);
+      document.querySelectorAll('.subtotal').forEach((el) => (el.textContent = money(total)));
+
+      const rows = document.getElementById('rows')!;
+      rows.replaceChildren();
+      for (const it of items) {
+        const f = fams[it.fam] ?? { css: 'inherit', w: 400, bg: 'transparent', fg: 'inherit', glyphs };
+        const row = document.createElement('div');
+        row.className = 'row3';
+
+        const sw = document.createElement('div');
+        sw.className = 'sw';
+        const inner = document.createElement('div');
+        inner.className = 'arch-60';
+        inner.style.cssText = `background:${f.bg};color:${f.fg};font-family:${f.css};font-weight:${f.w}`;
+        inner.textContent = f.glyphs;
+        sw.append(inner);
+
+        const info = document.createElement('div');
+        info.className = 'stack';
+        info.style.cssText = 'gap:6px;min-width:0';
+        const title = document.createElement('a');
+        title.href = `/typefaces/${it.fam}/`;
+        title.style.cssText = 'font-size:18px;font-weight:600;letter-spacing:.2em;text-transform:uppercase';
+        title.textContent = `${it.prefix} ${it.name}`;
+        const pkg = document.createElement('span');
+        pkg.style.cssText = 'font-size:14px;font-weight:300';
+        pkg.textContent = it.pkg;
+        const tier = document.createElement('span');
+        tier.className = 'small-label';
+        tier.textContent = it.tier === 'Free' ? 'Free license' : `${it.tier} license`;
+        info.append(title, pkg, tier);
+
+        const right = document.createElement('div');
+        right.className = 'stack';
+        right.style.cssText = 'align-items:flex-end;gap:10px';
+        const price = document.createElement('span');
+        price.style.cssText = 'font-size:22px;font-weight:300';
+        price.textContent = it.price ? money(it.price) : 'Free';
+        const rm = document.createElement('button');
+        rm.className = 'link';
+        rm.textContent = 'Remove';
+        rm.addEventListener('click', () => { write(read().filter((x) => x.id !== it.id)); render(); });
+        right.append(price, rm);
+
+        row.append(sw, info, right);
+        rows.append(row);
+      }
+    }
+    render();
+  </script>
+</Base>

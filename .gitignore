@@ -1,0 +1,7 @@
+node_modules
+dist
+.astro
+.DS_Store
+_unpublished
+# original design handoff: contains full retail font files, never commit
+*.zip
