@@ -57,28 +57,28 @@ export const FAMILIES: Family[] = [
   {
     slug: 'andrena', page: true, specimen: '/specimens/andrena.pdf', prefix: 'DTF', name: 'Andrena', css: "'DTF Andrena'", style: 'Art Deco', status: 'avail', caps: false, mins: true,
     weights: W6, heroW: 900, cardBg: '#16213e', fg: '#d8a640',
-    blurb: 'An Art Deco face for the Deseret alphabet, named for the genus of mining bees.',
-    note: 'A ground-nesting solitary bee.',
+    blurb: 'An Art Deco face for the Deseret alphabet.',
+    note: 'A ground-nesting solitary mining bee.',
     theme: { ...GOLD, bg: '#16213e', arch: '#0d1428', text: '#efe3c4', hi: '#f1dca0' },
   },
   {
     slug: 'augochlora', page: true, specimen: '/specimens/augochlora.pdf', prefix: 'DTF', name: 'Augochlora', css: "'DTF Augochlora'", style: 'Art Deco', status: 'avail', caps: false, mins: true,
     weights: W6, heroW: 900, cardBg: 'radial-gradient(circle at 50% 30%,#2e8f5a,#0e3d29 70%)', fg: '#bff0cc',
-    blurb: 'An Art Deco face for the Deseret alphabet, named for the genus of metallic green sweat bees.',
+    blurb: 'An Art Deco face for the Deseret alphabet.',
     note: 'A metallic green sweat bee.',
     theme: { ...GOLD, bg: '#0e3d29', arch: 'radial-gradient(circle at 50% 30%,#2e8f5a,#0a2e1f 70%)', text: '#e6f3e4', hi: '#bff0cc' },
   },
   {
     slug: 'calyptapis', page: true, specimen: '/specimens/calyptapis.pdf', prefix: 'DTF', name: 'Calyptapis', css: "'DTF Calyptapis'", style: 'Slab serif', status: 'avail', caps: false, mins: true,
-    weights: C6, heroW: 900, cardBg: '#7d1515', fg: '#f4d6b0',
-    blurb: 'A slab serif for the Deseret alphabet, named for a genus of fossil bee.',
+    weights: C6, heroW: 700, cardBg: '#7d1515', fg: '#f4d6b0',
+    blurb: 'A slab serif for the Deseret alphabet.',
     note: 'A genus of fossil bee.',
     theme: { ...GOLD, bg: '#6b1111', arch: '#8a1a1a', text: '#f7e6d4', hi: '#f4d6b0' },
   },
   {
     slug: 'hesperapis', page: true, specimen: '/specimens/hesperapis.pdf', prefix: 'IDC', name: 'Hesperapis', css: "'IDC Hesperapis'", style: 'Text face', status: 'free', caps: true, mins: true,
     weights: [[400, 'Regular']], heroW: 400, cardBg: '#ffffff', fg: '#111111',
-    blurb: 'Drawn for the Illinois Deseret Consortium. Free to download.',
+    blurb: 'A reproduction of the 1868–69 Russell Bros. typeface, drawn for the Illinois Deseret Consortium.',
     note: 'A genus of solitary bees.  Here, named as “Bee of the West”.',
     theme: {
       bg: '#ffffff', arch: '#f5f2ea', text: '#111111', hi: '#111111', accent: '#7a5c18', border: '#7a5c18',
@@ -90,7 +90,7 @@ export const FAMILIES: Family[] = [
     slug: 'sericogaster', page: false, prefix: 'DTF', name: 'Sericogaster', css: "'DTF Sericogaster'", style: 'Forthcoming', status: 'soon', caps: false, mins: true, // stopgap minuscules (scaled capitals); no digits/punctuation yet
     weights: [[400, 'Regular'], [700, 'Bold']], heroW: 700, cardBg: '#3d2447', fg: '#e2c6ea',
     blurb: 'The next family from the foundry, in preparation.',
-    note: 'Sericogaster — lorem ipsum dolor',
+    note: 'A monotypic genus of Australian bees.',
     theme: { ...GOLD, bg: '#3d2447', arch: '#2c1834', text: '#f1e4f4', hi: '#e2c6ea' },
   },
 ];
