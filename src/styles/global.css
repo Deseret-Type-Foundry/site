@@ -19,6 +19,7 @@
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-Black.woff2) format("woff2");font-weight:900;font-display:swap}
+@font-face{font-family:"DTF Sericogaster";src:url(/fonts/Sericogaster-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 @font-face{font-family:"IDC Hesperapis";src:url(/fonts/IDCHesperapis-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
 
 /* ---- Tokens: "Midnight Deco". Typeface pages override these inline on <body>. ---- */
@@ -59,6 +60,7 @@ button{font-family:inherit}
 .site-header nav{display:flex;gap:clamp(14px,2vw,28px)}
 .site-header nav.r{justify-content:flex-end}
 .site-header a[aria-current="page"]{color:var(--accent)}
+.nav-off{opacity:.4;cursor:not-allowed;user-select:none}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{width:38px;height:38px;filter:var(--logo-filter);mix-blend-mode:var(--logo-blend)}
 .brand span{font-weight:600;letter-spacing:.22em;color:var(--accent)}
@@ -206,10 +208,15 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outli
 .stickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px}
 .sticker .img{background:#e3e5de;display:flex;align-items:center;justify-content:center;padding:28px}
 .sticker img{width:100%;max-width:220px;height:auto;display:block;box-shadow:0 10px 24px rgba(17,26,48,.25)}
+.sticker.wide{grid-column:span 2}
+.sticker.wide img{max-width:520px}
+@media (max-width:640px){.sticker.wide{grid-column:auto}}
 
 /* ---- About ---- */
-.names>*{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr) auto;gap:28px;align-items:center;padding:18px 0;border-bottom:1px solid rgba(201,162,74,.3)}
-@media (max-width:560px){.names>*{grid-template-columns:minmax(0,1fr) auto}.names>*>:first-child{grid-column:1/-1}}
+.name-row{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr) auto;gap:28px;align-items:center;padding:18px 0;border-bottom:1px solid rgba(201,162,74,.3)}
+.genus{align-self:flex-start;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:6px}
+.genus:hover{text-decoration-color:var(--accent);opacity:1}
+@media (max-width:560px){.name-row{grid-template-columns:minmax(0,1fr) auto}.name-row>:first-child{grid-column:1/-1}}
 .boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
 .box{padding:32px;display:flex;flex-direction:column;gap:14px}
 .note{font-size:12px;font-weight:300;line-height:1.5;opacity:.8}

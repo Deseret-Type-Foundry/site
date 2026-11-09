@@ -7,7 +7,7 @@ const fams = Object.fromEntries(
 );
 ---
 
-<Base title="Cart" active="cart">
+<Base title="Cart" noindex>
   <div class="wrap-narrow stack" style="padding-top:40px;padding-bottom:72px;gap:36px">
     <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px">
       <h1 style="font-size:clamp(30px,4vw,44px);font-weight:600;letter-spacing:.2em;text-transform:uppercase">Cart</h1>
@@ -59,7 +59,6 @@ const fams = Object.fromEntries(
       const items = read();
       document.getElementById('empty')!.hidden = items.length > 0;
       document.getElementById('full')!.hidden = items.length === 0;
-      document.querySelectorAll('[data-cart-count]').forEach((el) => (el.textContent = items.length ? ` · ${items.length}` : ''));
       const total = items.reduce((a, b) => a + (b.price || 0), 0);
       document.querySelectorAll('.subtotal').forEach((el) => (el.textContent = money(total)));
 

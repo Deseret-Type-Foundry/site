@@ -26,9 +26,17 @@ Copied from soma's builds (`~/Fonts/*/…/specimens/`, v1.0; Hesperapis v1.1). T
 specimen yet (stopgap minuscules). Re-copy when soma regenerates them.
 
 ## Sericogaster
-Forthcoming notice only: `page: false` in `src/data/catalog.ts` means no `/typefaces/sericogaster/` route and no links to it (Home and About list it as a notice).
+Forthcoming card + About row only (3-glyph, 792-byte `Sericogaster-Bold.woff2` subset ships): `page: false` in `src/data/catalog.ts` means no `/typefaces/sericogaster/` route and no links to it (Home and About list it as a notice).
 Its stopgap font files are parked in `_unpublished/fonts/` (gitignored, not shipped). To launch it: set `page: true`, move the files back to `public/fonts/`,
 restore its `@font-face` rules in `global.css`, and (when ready) add a specimen.
+
+## Images (preview size only)
+Sticker and poster art ships at **display size, 1×** (stickers 220 px wide, home-page thumbnails 90 px, poster `pd-sticker.png` 520 px), never the
+print-resolution originals. The guard fails the build if any raster image exceeds 700 px. Originals live outside this repo; resize from them, don't commit them.
+
+## Not linked yet
+Licensing, Cart and Account pages are built but unlinked and `noindex` (nav shows Account and Cart disabled). Add-to-cart is off while
+`STOREFRONT_OPEN` (src/data/catalog.ts) is false. `/stickers/` redirects to `/products/`.
 
 ## Font guard
 `scripts/check-fonts.py dist` (also `npm run build && npm run check:fonts`; needs `pip install fonttools brotli`) fails the build/deploy if the

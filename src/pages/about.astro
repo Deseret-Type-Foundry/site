@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { FAMILIES, SAMPLE_GLYPHS, face } from '../data/catalog';
+import { FAMILIES, SAMPLE_GLYPHS, face, wikiUrl } from '../data/catalog';
 
 const statusLabel = { avail: 'Available', free: 'Free', soon: 'Forthcoming' } as const;
 ---
@@ -25,16 +25,17 @@ const statusLabel = { avail: 'Available', free: 'Free', soon: 'Forthcoming' } as
     <p style="max-width:640px;font-size:16px;font-weight:300;line-height:1.65">Each DTF typeface family is named for a genus of bee.</p>
     <div class="names stack">
       {FAMILIES.map((f) => {
-        const Row = f.page ? 'a' : 'div';
+        const href = f.page ? `/typefaces/${f.slug}/` : undefined;
+        const Link = f.page ? 'a' : 'span';
         return (
-        <Row href={f.page ? `/typefaces/${f.slug}/` : undefined}>
-          {f.page ? <span style={`font-family:${f.css};font-weight:${f.heroW};font-size:44px;line-height:1.2;color:${f.slug === 'hesperapis' ? '#fff' : f.fg};white-space:nowrap`}>{face(f, SAMPLE_GLYPHS)}</span> : <span></span>}
+        <div class="name-row">
+          <Link href={href} style={`font-family:${f.css};font-weight:${f.heroW};font-size:44px;line-height:1.2;color:${f.slug === 'hesperapis' ? '#fff' : f.fg};white-space:nowrap`}>{face(f, SAMPLE_GLYPHS)}</Link>
           <span class="stack" style="gap:4px">
-            <span class="up" style="font-size:18px;font-weight:600;letter-spacing:.22em">{f.name}</span>
+            <a href={wikiUrl(f)} target="_blank" rel="noopener" class="up genus" style="font-size:18px;font-weight:600;letter-spacing:.22em" title={`${f.name} on Wikipedia`}>{f.name}<span aria-hidden="true"> ↗</span></a>
             <span style="font-size:14px;font-weight:300;font-style:italic">{f.note}</span>
           </span>
-          <span class="small-label" style="white-space:nowrap">{statusLabel[f.status]}</span>
-        </Row>
+          <Link href={href} class="small-label" style="white-space:nowrap">{statusLabel[f.status]}</Link>
+        </div>
         );
       })}
     </div>

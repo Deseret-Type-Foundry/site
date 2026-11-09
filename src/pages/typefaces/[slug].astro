@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import DeseretKeyboard from '../../components/DeseretKeyboard.astro';
-import { FAMILIES, TIERS, SAMPLE, SAMPLE_GLYPHS, bySlug, face } from '../../data/catalog';
+import { FAMILIES, TIERS, SAMPLE, SAMPLE_GLYPHS, STOREFRONT_OPEN, bySlug, face } from '../../data/catalog';
 
 export function getStaticPaths() {
   return FAMILIES.filter((f) => f.page).map((f) => ({ params: { slug: f.slug } }));
@@ -16,7 +16,7 @@ const cta = f.status === 'avail' ? 'Buy a license' : f.status === 'free' ? 'Down
 const buyHeading = f.status === 'avail' ? `License ${f.name}` : f.status === 'free' ? 'Download' : 'Release';
 const payload = {
   slug: f.slug, prefix: f.prefix, name: f.name, css: f.css, status: f.status,
-  weights: f.weights, defaultW: defaultW[0], sample, tiers: TIERS,
+  weights: f.weights, defaultW: defaultW[0], sample, tiers: TIERS, open: STOREFRONT_OPEN,
 };
 ---
 
@@ -181,12 +181,12 @@ const payload = {
 
   <script>
     import { priceFor, type Tier } from '../../data/catalog';
-    import { read, write, count, type CartItem } from '../../scripts/cart';
+    import { read, write, type CartItem } from '../../scripts/cart';
 
     type W = [number, string];
     const d = JSON.parse(document.getElementById('fam-data')!.textContent!) as {
       slug: string; prefix: string; name: string; css: string; status: 'avail' | 'free' | 'soon';
-      weights: W[]; defaultW: number; sample: string; tiers: Tier[];
+      weights: W[]; defaultW: number; sample: string; tiers: Tier[]; open: boolean;
     };
     const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
 
@@ -258,6 +258,10 @@ const payload = {
         } else {
           add.textContent = added ? 'Added · view cart' : 'Add to cart · $0.00';
         }
+        // Storefront closed: the picker still works, but nothing can be added. Enterprise quotes stay a contact link.
+        const quote = d.status === 'avail' && tier.family == null;
+        add.disabled = !d.open && !quote;
+        if (add.disabled) add.textContent = 'Opens at launch';
       };
 
       if (d.status === 'avail') {
@@ -296,7 +300,6 @@ const payload = {
         };
         write([...read(), item]);
         added = true;
-        document.querySelectorAll('[data-cart-count]').forEach((el) => (el.textContent = ` · ${count()}`));
         paint();
       });
       paint();

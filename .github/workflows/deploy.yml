@@ -30,7 +30,7 @@ jobs:
           python-version: '3.12'
       - name: Guard — no retail fonts in the built site
         run: |
-          pip install fonttools brotli
+          pip install fonttools brotli pillow
           python3 scripts/check-fonts.py dist
       - uses: actions/upload-pages-artifact@v3
         with:

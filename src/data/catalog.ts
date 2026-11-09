@@ -138,9 +138,35 @@ export function priceFor(tier: Tier, nWeights: number, wholeFamily: boolean): nu
   return wholeFamily ? tier.family : Math.min(nWeights * tier.weight, tier.family);
 }
 
-export const SHOP_URL = '#'; // TBD: external sticker shop
-export const STICKERS = [
-  { img: '/assets/sticker-pu.png', alt: 'Plutonium sticker', no: '94', name: 'Plutonium', rot: -2 },
-  { img: '/assets/sticker-u.png', alt: 'Uranium sticker', no: '92', name: 'Uranium', rot: 1.5 },
-  { img: '/assets/sticker-ag.png', alt: 'Silver sticker', no: '47', name: 'Silver', rot: -1 },
+/** Cart, checkout, accounts and downloads are off until the storefront exists. Flip to true then. */
+export const STOREFRONT_OPEN = false;
+
+export const SHOP_URL = 'https://www.outer-veil.com/'; // The Outer Veil, Provo, Utah: sole seller of stickers and posters
+// Preview images are shipped at display size on purpose (1×, real pixels): never replace them with print-resolution art.
+export interface Product {
+  slug: string;
+  kind: 'Sticker' | 'Poster';
+  name: string;
+  no?: string; // atomic number
+  img: string;
+  w: number;
+  h: number;
+  alt: string;
+  description: string;
+  rot?: number;
+  wide?: boolean;
+}
+export const PRODUCTS: Product[] = [
+  { slug: 'periodic-table-poster', kind: 'Poster', name: 'Periodic Table Poster', img: '/assets/pd-sticker.png', w: 520, h: 270, wide: true,
+    alt: 'Preview of the periodic table of the elements in the Deseret alphabet',
+    description: 'The periodic table of the elements, set in the Deseret alphabet.' },
+  { slug: 'plutonium-sticker', kind: 'Sticker', name: 'Plutonium', no: '94', img: '/assets/sticker-pu.png', w: 220, h: 265, rot: -2,
+    alt: 'Plutonium sticker', description: 'Plutonium (94) element sticker, lettered in the Deseret alphabet.' },
+  { slug: 'uranium-sticker', kind: 'Sticker', name: 'Uranium', no: '92', img: '/assets/sticker-u.png', w: 220, h: 265, rot: 1.5,
+    alt: 'Uranium sticker', description: 'Uranium (92) element sticker, lettered in the Deseret alphabet.' },
+  { slug: 'silver-sticker', kind: 'Sticker', name: 'Silver', no: '47', img: '/assets/sticker-ag.png', w: 220, h: 265, rot: -1,
+    alt: 'Silver sticker', description: 'Silver (47) element sticker, lettered in the Deseret alphabet.' },
 ];
+
+/** English Wikipedia article for a family's bee genus. */
+export const wikiUrl = (f: Pick<Family, 'name'>) => `https://en.wikipedia.org/wiki/${f.name}`;

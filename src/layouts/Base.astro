@@ -5,14 +5,16 @@ import { DEFAULT_THEME, type Theme } from '../data/catalog';
 interface Props {
   title?: string;
   description?: string;
-  active?: 'typefaces' | 'licensing' | 'about' | 'stickers' | 'account' | 'cart';
+  active?: 'typefaces' | 'about' | 'products';
   theme?: Theme;
+  noindex?: boolean; // pages that exist but are not linked yet (licensing, cart, account)
 }
 const {
   title,
   description = 'Typefaces for the Deseret alphabet (U+10400–1044F).',
   active,
   theme = DEFAULT_THEME,
+  noindex = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} · Deseret Type Foundry` : 'Deseret Type Foundry';
@@ -25,13 +27,11 @@ const vars = [
 
 const left = [
   ['typefaces', '/', 'Typefaces'],
-  ['licensing', '/licensing/', 'Licensing'],
   ['about', '/about/', 'About'],
 ] as const;
-const right = [
-  ['stickers', '/stickers/', 'Stickers'],
-  ['account', '/account/', 'Account'],
-] as const;
+const right = [['products', '/products/', 'Products']] as const;
+// Visible but disabled until the storefront opens (no link, not focusable).
+const disabled = ['Account', 'Cart'] as const;
 const cur = (k: string) => (k === active ? 'page' : undefined);
 ---
 
@@ -42,6 +42,7 @@ const cur = (k: string) => (k === active ? 'page' : undefined);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <link rel="icon" href="/assets/wordmark.png" />
@@ -66,14 +67,14 @@ const cur = (k: string) => (k === active ? 'page' : undefined);
       </a>
       <nav class="r">
         {right.map(([k, href, label]) => <a href={href} aria-current={cur(k)}>{label}</a>)}
-        <a href="/cart/" aria-current={cur('cart')}>Cart<span data-cart-count></span></a>
+        {disabled.map((label) => <span class="nav-off" aria-disabled="true" title="Opens with the storefront">{label}</span>)}
       </nav>
       <details class="menu">
         <summary>Menu</summary>
         <div class="panel">
           {left.map(([k, href, label]) => <a href={href} aria-current={cur(k)}>{label}</a>)}
           {right.map(([k, href, label]) => <a href={href} aria-current={cur(k)}>{label}</a>)}
-          <a href="/cart/" aria-current={cur('cart')}>Cart<span data-cart-count></span></a>
+          {disabled.map((label) => <span class="nav-off" aria-disabled="true">{label}</span>)}
         </div>
       </details>
     </header>
@@ -83,18 +84,9 @@ const cur = (k: string) => (k === active ? 'page' : undefined);
     <footer class="site-footer">
       <span>deseret.ink</span>
       <span class="links">
-        <a href="/licensing/">EULA</a>
         <a href="/about/#contact">Contact</a>
         <a href="https://x.com/DeseretType" target="_blank" rel="noopener">@DeseretType</a>
       </span>
     </footer>
-
-    <script>
-      import { count } from '../scripts/cart';
-      const n = count();
-      document.querySelectorAll('[data-cart-count]').forEach((el) => {
-        el.textContent = n ? ` · ${n}` : '';
-      });
-    </script>
   </body>
 </html>

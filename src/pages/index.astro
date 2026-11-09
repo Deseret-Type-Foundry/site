@@ -19,8 +19,10 @@ const meta = (f: (typeof FAMILIES)[number]) =>
   <div class="wrap stack" style="padding-top:64px;padding-bottom:56px;gap:32px">
     <div class="kicker"><span>The collection</span><span class="rule"></span></div>
     <div class="grid-cards">
-      {FAMILIES.map((f) => f.page ? (
-        <a href={`/typefaces/${f.slug}/`} class="frame card">
+      {FAMILIES.map((f) => {
+        const Card = f.page ? 'a' : 'div'; // forthcoming families are a notice, not a link
+        return (
+        <Card href={f.page ? `/typefaces/${f.slug}/` : undefined} class="frame card">
           <div
             class="in arch-140"
             style={`background:${f.cardBg};${f.slug === 'hesperapis' ? 'border-color:#111;color:#111' : ''}`}
@@ -33,15 +35,9 @@ const meta = (f: (typeof FAMILIES)[number]) =>
               {f.status === 'avail' && <span>{meta(f)}</span>}
             </div>
           </div>
-        </a>
-      ) : (
-        <div class="frame dashed">
-          <div class="in arch-140" style="padding:34px 26px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-            <div style="font-size:22px;font-weight:600;letter-spacing:.28em;text-transform:uppercase">{f.name}</div>
-            <div class="label">Forthcoming</div>
-          </div>
-        </div>
-      ))}
+        </Card>
+        );
+      })}
       <div class="frame dashed">
         <div class="in arch-140" style="padding:34px 26px 26px;display:flex;align-items:center;justify-content:center">
           <div class="label">Forthcoming</div>
@@ -51,12 +47,12 @@ const meta = (f: (typeof FAMILIES)[number]) =>
   </div>
 
   <div class="teaser">
-    <img src="/assets/sticker-pu.png" alt="Plutonium sticker" style="transform:rotate(-4deg)" />
+    <img src="/assets/sticker-pu-sm.png" width="90" height="108" alt="Plutonium sticker" style="transform:rotate(-4deg)" />
     <div class="stack" style="align-items:center;gap:8px;text-align:center">
       <span class="label">Also available</span>
       <span style="font-size:20px;font-weight:300">Periodic table stickers</span>
-      <a href="/stickers/" class="up" style="font-size:12px;letter-spacing:.2em;text-decoration:underline">Browse</a>
+      <a href="/products/" class="up" style="font-size:12px;letter-spacing:.2em;text-decoration:underline">Browse</a>
     </div>
-    <img src="/assets/sticker-ag.png" alt="Silver sticker" style="transform:rotate(4deg)" />
+    <img src="/assets/sticker-ag-sm.png" width="90" height="108" alt="Silver sticker" style="transform:rotate(4deg)" />
   </div>
 </Base>
