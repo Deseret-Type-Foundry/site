@@ -59,3 +59,8 @@ Pages is static only: the storefront backend (Paddle webhook, signed downloads, 
 Sericogaster = stopgap minuscule-only build (scaled capitals; no digits/punctuation yet). No retail capitals remain in `public/fonts/`.
 `Family.caps/mins` in `src/data/catalog.ts` record coverage; `face()` folds sample text to what each face can draw,
 and the tester keyboard types minuscules for minuscule-only faces. Retail files are backed up in soma's scratchpad, not in this repo.
+
+## Pre-Launch Notes
+
+* We won't sell separate weights, one price per family.
+* We will have a liberal licensing agreement whereby they gain access to future font releases under the same family.
