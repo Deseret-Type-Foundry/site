@@ -153,8 +153,8 @@ export interface Tier {
 }
 
 export const TIERS: Tier[] = [
-  { key: 'personal', name: 'Personal', desc: 'Non-commercial projects, one person, desktop use.', weight: 20, family: 80 },
-  { key: 'commercial', name: 'Commercial', desc: 'Client and commercial work, up to 5 users, desktop and web.', weight: 50, family: 200 },
+  { key: 'personal', name: 'Personal', desc: 'Non-commercial projects, one person, desktop use.', weight: 20, family: 40 },
+  { key: 'commercial', name: 'Commercial', desc: 'Client and commercial work, up to 5 users, desktop and web.', weight: 50, family: 150 },
   { key: 'enterprise', name: 'Enterprise', desc: 'Unlimited users, apps, broadcast and custom terms.', weight: null, family: null },
 ];
 
