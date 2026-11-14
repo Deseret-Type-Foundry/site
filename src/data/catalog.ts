@@ -43,6 +43,8 @@ export interface Family {
   fg: string; // glyph colour on cards
   blurb: string;
   note: string; // About page note
+  noPreview?: boolean; // no drawn letters yet: the Home card and About row show the name only, no sample glyphs
+  wiki?: string; // Wikipedia article title for the bee genus, when it differs from `name` (e.g. a disambiguation page)
   kind?: string; // short descriptor on a forthcoming card, in place of "N weights" (e.g. "Historical")
   page: boolean; // has its own /typefaces/<slug>/ page and is linked from lists; false = forthcoming notice only
   specimen?: string; // path of the specimen PDF under /public, if one is cleared for the site
@@ -114,6 +116,14 @@ export const FAMILIES: Family[] = [
     blurb: 'The next family from the foundry, in preparation.',
     note: 'A monotypic genus of Australian bees.',
     theme: { ...GOLD, bg: '#3d2447', arch: '#2c1834', text: '#f1e4f4', hi: '#e2c6ea' },
+  },
+  {
+    // Skeleton only: every letter is still a stub (see ~/Fonts/DTF Perdita), so no font ships and no preview glyphs are shown.
+    slug: 'perdita', page: false, noPreview: true, kind: 'Historical', wiki: 'Perdita_(bee)', prefix: 'DTF', name: 'Perdita', css: "'DTF Perdita'", style: 'Forthcoming', status: 'soon', caps: true, mins: true,
+    weights: [[400, 'Regular'], [700, 'Bold']], heroW: 700, cardBg: '#33261a', fg: '#ead7ae',
+    blurb: 'A fat face after the Oversize Specimen of about 1856, in preparation.',
+    note: 'A large genus of small bees native to North America.',
+    theme: { ...GOLD, bg: '#33261a', arch: '#251a10', text: '#f3e6cc', hi: '#ead7ae' },
   },
 ];
 
@@ -196,4 +206,4 @@ export const PRODUCTS: Product[] = [
 ];
 
 /** English Wikipedia article for a family's bee genus. */
-export const wikiUrl = (f: Pick<Family, 'name'>) => `https://en.wikipedia.org/wiki/${f.name}`;
+export const wikiUrl = (f: Pick<Family, 'name' | 'wiki'>) => `https://en.wikipedia.org/wiki/${f.wiki ?? f.name}`;

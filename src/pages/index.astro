@@ -25,9 +25,9 @@ const meta = (f: (typeof FAMILIES)[number]) =>
         <Card href={f.page ? `/typefaces/${f.slug}/` : undefined} class="frame card">
           <div
             class="in arch-140"
-            style={`background:${f.cardBg};${f.slug === 'hesperapis' ? 'border-color:#111;color:#111' : ''}`}
+            style={`background:${f.cardBg};${f.slug === 'hesperapis' ? 'border-color:#111;color:#111' : ''}${f.noPreview ? 'justify-content:center' : ''}`}
           >
-            <div class="glyphs" style={`font-family:${sampleGlyphs(f).css};font-weight:${f.heroW};color:${f.fg}`}>{sampleGlyphs(f).text}</div>
+            {!f.noPreview && <div class="glyphs" style={`font-family:${sampleGlyphs(f).css};font-weight:${f.heroW};color:${f.fg}`}>{sampleGlyphs(f).text}</div>}
             <div class="name">{f.name}</div>
             <div class="meta" style={`color:${f.status === 'free' ? 'inherit' : f.fg}`}>
               {f.status === 'free' && (<><span>Historical · 1 weight</span><span class="tag" style="background:#111;color:#fff">Free</span></>)}
@@ -38,11 +38,6 @@ const meta = (f: (typeof FAMILIES)[number]) =>
         </Card>
         );
       })}
-      <div class="frame dashed">
-        <div class="in arch-140" style="padding:34px 26px 26px;display:flex;align-items:center;justify-content:center">
-          <div class="label">Forthcoming</div>
-        </div>
-      </div>
     </div>
   </div>
 

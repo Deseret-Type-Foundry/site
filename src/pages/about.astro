@@ -29,7 +29,7 @@ const statusLabel = { avail: 'Available', free: 'Free', soon: 'Forthcoming' } as
         const Link = f.page ? 'a' : 'span';
         return (
         <div class="name-row">
-          <Link href={href} style={`font-family:${sampleGlyphs(f).css};font-weight:${f.heroW};font-size:44px;line-height:1.2;color:${f.slug === 'hesperapis' ? '#fff' : f.fg};white-space:nowrap`}>{sampleGlyphs(f).text}</Link>
+          {f.noPreview ? <span></span> : <Link href={href} style={`font-family:${sampleGlyphs(f).css};font-weight:${f.heroW};font-size:44px;line-height:1.2;color:${f.slug === 'hesperapis' ? '#fff' : f.fg};white-space:nowrap`}>{sampleGlyphs(f).text}</Link>}
           <span class="stack" style="gap:4px">
             <a href={wikiUrl(f)} target="_blank" rel="noopener" class="up genus" style="font-size:18px;font-weight:600;letter-spacing:.22em" title={`${f.name} on Wikipedia`}>{f.name}<span aria-hidden="true"> ↗</span></a>
             <span style="font-size:14px;font-weight:300;font-style:italic">{f.note}</span>
