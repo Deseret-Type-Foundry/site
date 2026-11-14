@@ -43,6 +43,7 @@ export interface Family {
   fg: string; // glyph colour on cards
   blurb: string;
   note: string; // About page note
+  kind?: string; // short descriptor on a forthcoming card, in place of "N weights" (e.g. "Historical")
   page: boolean; // has its own /typefaces/<slug>/ page and is linked from lists; false = forthcoming notice only
   specimen?: string; // path of the specimen PDF under /public, if one is cleared for the site
   features?: readonly Feature[]; // OpenType features, from the font's dtf.toml
@@ -108,7 +109,7 @@ export const FAMILIES: Family[] = [
     },
   },
   {
-    slug: 'sericogaster', page: false, prefix: 'DTF', name: 'Sericogaster', css: "'DTF Sericogaster'", style: 'Forthcoming', status: 'soon', caps: false, mins: true, // stopgap minuscules (scaled capitals); no digits/punctuation yet
+    slug: 'sericogaster', page: false, kind: 'Historical', prefix: 'DTF', name: 'Sericogaster', css: "'DTF Sericogaster'", style: 'Forthcoming', status: 'soon', caps: false, mins: true, // stopgap minuscules (scaled capitals); no digits/punctuation yet
     weights: [[400, 'Regular'], [700, 'Bold']], heroW: 700, cardBg: '#3d2447', fg: '#e2c6ea',
     blurb: 'The next family from the foundry, in preparation.',
     note: 'A monotypic genus of Australian bees.',

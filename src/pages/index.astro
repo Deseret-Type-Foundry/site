@@ -31,7 +31,7 @@ const meta = (f: (typeof FAMILIES)[number]) =>
             <div class="name">{f.name}</div>
             <div class="meta" style={`color:${f.status === 'free' ? 'inherit' : f.fg}`}>
               {f.status === 'free' && (<><span>Historical · 1 weight</span><span class="tag" style="background:#111;color:#fff">Free</span></>)}
-              {f.status === 'soon' && (<><span>{f.weights.length} weights</span><span class="tag" style={`border:1px solid ${f.fg}`}>Forthcoming</span></>)}
+              {f.status === 'soon' && (<><span>{f.kind ?? `${f.weights.length} weights`}</span><span class="tag" style={`border:1px solid ${f.fg}`}>Forthcoming</span></>)}
               {f.status === 'avail' && <span>{meta(f)}</span>}
             </div>
           </div>
