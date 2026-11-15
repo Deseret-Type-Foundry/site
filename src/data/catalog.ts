@@ -118,9 +118,9 @@ export const FAMILIES: Family[] = [
     theme: { ...GOLD, bg: '#3d2447', arch: '#2c1834', text: '#f1e4f4', hi: '#e2c6ea' },
   },
   {
-    // Skeleton only: every letter is still a stub (see ~/Fonts/DTF Perdita), so no font ships and no preview glyphs are shown.
-    slug: 'perdita', page: false, noPreview: true, kind: 'Historical', wiki: 'Perdita_(bee)', prefix: 'DTF', name: 'Perdita', css: "'DTF Perdita'", style: 'Forthcoming', status: 'soon', caps: true, mins: true,
-    weights: [[400, 'Regular'], [700, 'Bold']], heroW: 700, cardBg: '#33261a', fg: '#ead7ae',
+    // Work in progress (see ~/Fonts/DTF Perdita): only the sample capitals D T F ship, as a 3-glyph preview font. Capitals only, one weight.
+    slug: 'perdita', page: false, kind: 'Historical', wiki: 'Perdita_(bee)', prefix: 'DTF', name: 'Perdita', css: "'DTF Perdita'", style: 'Forthcoming', status: 'soon', caps: true, mins: false,
+    weights: [[400, 'Regular']], heroW: 400, cardBg: '#33261a', fg: '#ead7ae',
     blurb: 'A fat face after the Oversize Specimen of about 1856, in preparation.',
     note: 'A large genus of small bees native to North America.',
     theme: { ...GOLD, bg: '#33261a', arch: '#251a10', text: '#f3e6cc', hi: '#ead7ae' },

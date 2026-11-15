@@ -6,8 +6,8 @@ Run against the BUILT output (what actually deploys):  python3 scripts/check-fon
 
 Rules, for everything under the directory:
   1. Only .woff2 font files are allowed (no .otf/.ttf/.woff/.eot/.zip).
-  2. A .woff2 may contain Deseret capitals (U+10400-10427) only if it is IDC Hesperapis (open source, SIL OFL), or is the
-     title-only file Andrena-Black-Title.woff2 holding exactly the ALLOWED_TITLE code points.
+  2. A .woff2 may contain Deseret capitals (U+10400-10427) only if it is IDC Hesperapis (open source, SIL OFL), or is one of the
+     sample-only files in ALLOWED_TITLE (Andrena-Black-Title.woff2, Perdita-Regular.woff2), each holding only its listed code points.
   3. DTF preview subsets must stay minuscule-only subsets: at most MAX_GLYPHS glyphs (a full retail font is far larger).
   4. PDFs must not embed a font program for a DTF/IDC family (the specimens draw glyphs as outlines).
   5. Raster images (png/jpg/gif/webp) must be preview size: long side <= MAX_IMAGE_PX. Sticker and poster art ships
@@ -22,8 +22,13 @@ from fontTools.ttLib import TTFont
 from PIL import Image
 
 OPEN = ("IDCHesperapis",)           # families cleared for full publication
-# The one DTF file allowed to carry capitals: the Home title, limited to exactly these code points (+ space).
-ALLOWED_TITLE = {"Andrena-Black-Title.woff2": {0x10400, 0x10407, 0x1040C, 0x1040D, 0x10411, 0x10413, 0x10414, 0x10419, 0x1041D, 0x10421, 0x10424, 0x20}}
+# The only DTF files allowed to carry capitals, each limited to exactly these code points:
+#   Andrena-Black-Title.woff2 : the Home title (+ space)
+#   Perdita-Regular.woff2     : Perdita's card sample, D T F
+ALLOWED_TITLE = {
+    "Andrena-Black-Title.woff2": {0x10400, 0x10407, 0x1040C, 0x1040D, 0x10411, 0x10413, 0x10414, 0x10419, 0x1041D, 0x10421, 0x10424, 0x20},
+    "Perdita-Regular.woff2": {0x10413, 0x10414, 0x10419},
+}
 MAX_GLYPHS = 120                    # current subsets: ~91-101 glyphs; full fonts are larger
 FAMILIES = (b"Andrena", b"Augochlora", b"Calyptapis", b"Sericogaster", b"Hesperapis")
 MAX_IMAGE_PX = 700               # largest image shipped today is the poster preview at 520 px

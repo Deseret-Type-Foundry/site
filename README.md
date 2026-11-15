@@ -43,6 +43,12 @@ The Home title is set in capitals from `Andrena-Black-Title.woff2` (soma's cut o
 falling back to the minuscule `DTF Andrena`. Change the wording in `HERO_LINE` (`src/data/catalog.ts`) only with letters that exist in that file;
 the guard allowlist (`ALLOWED_TITLE` in `scripts/check-fonts.py`) must be updated together with a re-cut font. It is the only DTF file allowed to carry capitals.
 
+## Perdita preview (D T F)
+`Perdita-Regular.woff2` (836 bytes) is a cut of DTF Perdita's three sample capitals 𐐔 𐐓 𐐙 (U+10414, 10413, 10419), built from `~/Fonts/DTF Perdita` (a scratch build of its
+current sources, checked glyph-for-glyph against the project's own OTF). It is capitals-only, one weight, and the guard allows exactly those three code points in that one
+file (`ALLOWED_TITLE` in `scripts/check-fonts.py`). Perdita is still a name-and-sample card, no type page. To refresh it after the letters change, re-cut from a fresh build;
+if the sample letters ever change, update the allowlist with the font.
+
 ## Font guard
 `scripts/check-fonts.py dist` (also `npm run build && npm run check:fonts`; needs `pip install fonttools brotli`) fails the build/deploy if the
 built site ships anything but woff2 fonts, capitals in any face other than IDC Hesperapis, a full-size font in place of a preview subset,
