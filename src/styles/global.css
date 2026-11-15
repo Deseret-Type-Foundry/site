@@ -93,12 +93,15 @@ button{font-family:inherit}
 .frame.block{display:block}
 .frame.dashed{border-style:dashed;border-color:var(--line-mid)}
 .frame.dashed>.in{border-style:dashed;border-color:var(--line-soft)}
-.arch-140{border-radius:140px 140px 0 0}
-.arch-160{border-radius:160px 160px 0 0}
-.arch-200{border-radius:200px 200px 0 0}
-.arch-220{border-radius:220px 220px 0 0}
-.arch-100{border-radius:100px 100px 0 0}
-.arch-60{border-radius:60px 60px 0 0}
+/* One arch ("tombstone") shape everywhere: the Home card's corner (140px on its 362px-wide face at desktop width)
+   as a share of the arch's own width, so every arch has the same proportions at any size. The frame around an arch is
+   a size container, so 1cqw is the arch's width. The class names stay (they are still used in the markup);
+   browsers without container units or :has() keep the 140px corner. */
+.arch-60,.arch-100,.arch-140,.arch-160,.arch-200,.arch-220{border-radius:140px 140px 0 0}
+@supports (width:1cqw) and selector(:has(a)){
+  .frame:has(>[class*="arch-"]),.row3 .sw{container-type:inline-size}
+  .arch-60,.arch-100,.arch-140,.arch-160,.arch-200,.arch-220{border-radius:38.67cqw 38.67cqw 0 0}
+}
 .sunburst{background:var(--sunburst)}
 
 .kicker{display:flex;align-items:center;gap:16px;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--accent)}
