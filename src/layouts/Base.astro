@@ -19,6 +19,9 @@ const {
 
 const fullTitle = title ? `${title} · Deseret Type Foundry` : 'Deseret Type Foundry';
 const t = theme;
+// Link-preview card (Signal, X, iMessage, Slack...): absolute URLs are required. Rebuild the image with scripts/make-og-image.py.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og-image.png', Astro.site).href;
 const vars = [
   `--bg:${t.bg}`, `--arch:${t.arch}`, `--text:${t.text}`, `--hi:${t.hi}`, `--accent:${t.accent}`,
   `--border:${t.border}`, `--line:${t.line}`, `--line-mid:${t.lineMid}`, `--line-soft:${t.lineSoft}`,
@@ -45,6 +48,18 @@ const cur = (k: string) => (k === active ? 'page' : undefined);
     {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Deseret Type Foundry" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Deseret Type Foundry: typefaces for the Deseret alphabet, with the title set in Deseret capitals." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href="/assets/wordmark.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

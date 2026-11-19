@@ -32,6 +32,7 @@ ALLOWED_TITLE = {
 MAX_GLYPHS = 120                    # current subsets: ~91-101 glyphs; full fonts are larger
 FAMILIES = (b"Andrena", b"Augochlora", b"Calyptapis", b"Sericogaster", b"Hesperapis")
 MAX_IMAGE_PX = 700               # largest image shipped today is the poster preview at 520 px
+ALLOWED_LARGE_IMAGES = {"og-image.png": (1200, 630)}   # the link-preview card: exact size only
 IMG_EXT = {".png", ".jpg", ".jpeg", ".gif", ".webp"}
 BAD_EXT = {".otf", ".ttf", ".woff", ".eot", ".zip"}
 
@@ -64,7 +65,10 @@ for p in sorted(root.rglob("*")):
     elif ext in IMG_EXT:
         imgs += 1
         with Image.open(p) as im:
-            if max(im.size) > MAX_IMAGE_PX:
+            if p.name in ALLOWED_LARGE_IMAGES:
+                if im.size != ALLOWED_LARGE_IMAGES[p.name]:
+                    problems.append(f"{rel}: {im.size[0]}x{im.size[1]}, expected exactly {ALLOWED_LARGE_IMAGES[p.name]}")
+            elif max(im.size) > MAX_IMAGE_PX:
                 problems.append(f"{rel}: {im.size[0]}x{im.size[1]} exceeds {MAX_IMAGE_PX}px; ship display-size previews only")
     elif ext == ".pdf":
         pdfs += 1

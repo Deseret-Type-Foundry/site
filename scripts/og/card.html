@@ -1,0 +1,36 @@
+<!doctype html>
+<!-- Source of public/og-image.png (the link-preview card). Rendered by scripts/make-og-image.py, which fills {{ROOT}} and {{HERO_LINE}}.
+     Mirrors the Home hero: midnight blue, gold sunburst and rings, the title in Andrena Black capitals. 1200x630, safe area ~1000x500 centred. -->
+<html lang="en"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"DTF Andrena Title";src:url("{{ROOT}}/public/fonts/Andrena-Black-Title.woff2") format("woff2");font-weight:900}
+:root{--bg:#111a30;--text:#efe3c4;--hi:#f1dca0;--accent:#d8b45c;--line:rgba(201,162,74,.5)}
+*{box-sizing:border-box}
+html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:var(--bg)}
+.card{position:relative;width:1200px;height:630px;overflow:hidden;color:var(--text);font-family:'Josefin Sans',sans-serif;
+  background:repeating-conic-gradient(from 0deg at 50% 100%,rgba(201,162,74,.075) 0deg 4deg,transparent 4deg 9deg),var(--bg)}
+.rings{position:absolute;left:50%;bottom:-430px;width:760px;height:760px;margin-left:-380px;border-radius:50%;border:1px solid var(--line);
+  box-shadow:0 0 0 30px var(--bg),0 0 0 31px rgba(201,162,74,.35),0 0 0 62px var(--bg),0 0 0 63px rgba(201,162,74,.2)}
+.frame{position:absolute;inset:22px;border:1px solid var(--line)}
+.frame::after{content:"";position:absolute;inset:6px;border:1px solid rgba(201,162,74,.25)}
+.body{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding-bottom:6px}
+.brand{display:flex;align-items:center;gap:14px;color:var(--accent);font-weight:600;font-size:19px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap}
+.brand img{width:40px;height:40px;filter:invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(.85);mix-blend-mode:screen}
+.kicker{display:flex;align-items:center;gap:18px;font-size:19px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.kicker i{width:52px;height:1px;background:var(--accent);display:block}
+.title{font-family:'DTF Andrena Title';font-weight:900;font-size:150px;line-height:1.05;color:var(--hi);text-align:center;white-space:nowrap}
+.tag{font-size:25px;font-weight:300;letter-spacing:.02em;text-align:center;max-width:760px;line-height:1.4}
+.url{position:absolute;left:0;right:0;bottom:44px;text-align:center;font-size:18px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:400}
+</style></head>
+<body><div class="card">
+  <div class="rings"></div><div class="frame"></div>
+  <div class="body">
+    <div class="brand"><img src="{{ROOT}}/public/assets/wordmark.png" alt="">Deseret Type Foundry</div>
+    <div class="kicker"><i></i>Typefaces for the Deseret alphabet<i></i></div>
+    <div class="title">{{HERO_LINE}}</div>
+    <div class="tag">Deseret Alphabet typefaces expressing the spirit of the 1920s.</div>
+  </div>
+  <div class="url">deseret.ink</div>
+</div></body></html>
