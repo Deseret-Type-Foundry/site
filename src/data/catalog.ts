@@ -75,7 +75,7 @@ export const FAMILIES: Family[] = [
     features: [
       { tag: 'ss01', name: 'Post-1859 ligatures', desc: '𐐧 and 𐐦 as the later MULE and CHOICE ligatures.', sample: '𐑏 𐑎' },
       { tag: 'ss02', name: 'Pre-1868 long E', desc: '𐐁 in its earlier open form.', sample: '𐐩' },
-      { tag: 'ss03', name: 'Aesthetic variants', desc: 'An alternate 𐐦.', sample: '𐑎' },
+      { tag: 'ss03', name: 'Aesthetic variants', desc: 'Alternate 𐐦, 𐐍 and 𐐵.', sample: '𐑎 𐐵' },
       { tag: 'tnum', name: 'Tabular figures', desc: 'Digits of one width, for columns of numbers.', sample: '1111 / 4444' },
     ],
     theme: { ...GOLD, bg: '#16213e', arch: '#0d1428', text: '#efe3c4', hi: '#f1dca0' },
