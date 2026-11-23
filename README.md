@@ -25,7 +25,8 @@ Copied from soma's builds (`~/Fonts/*/…/specimens/`, v1.0; Hesperapis v1.1). T
 (only Georgia/Hiragino/Menlo captions). Policy (Neal): showing majuscules is fine; never ship the retail font files. Re-copy when soma regenerates them.
 
 ## Sericogaster
-Released 2026-11-23 (font repo tag v1.0): type page, tester and specimen like the other DTF faces. `public/fonts/Sericogaster-{Regular,Bold}.woff2`
+Released 2026-11-23 (font repo tag v1.0; now v1.0.1, font version 1.001): type page, tester and specimen like the other DTF faces.
+Its `@font-face` URLs carry `?v=<font version>` so browsers fetch a new release instead of a cached one; bump it with each release. `public/fonts/Sericogaster-{Regular,Bold}.woff2`
 are the `dtf webfonts --minuscule-only` subsets (73 glyphs: minuscules, figures, punctuation). Its minuscules are still the capitals scaled to 0.8
 with capital-width hairlines. Its `salt` alternates are capitals only, so the page lists no features (the preview fonts have no capitals to show them).
 

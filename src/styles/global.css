@@ -21,8 +21,8 @@
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-Black.woff2) format("woff2");font-weight:900;font-display:swap}
-@font-face{font-family:"DTF Sericogaster";src:url(/fonts/Sericogaster-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"DTF Sericogaster";src:url(/fonts/Sericogaster-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"DTF Sericogaster";src:url(/fonts/Sericogaster-Regular.woff2?v=1.001) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"DTF Sericogaster";src:url(/fonts/Sericogaster-Bold.woff2?v=1.001) format("woff2");font-weight:700;font-display:swap}
 /* Perdita preview: just the three sample capitals (D T F), 836 bytes. scripts/check-fonts.py allows exactly these. */
 @font-face{font-family:"DTF Perdita";src:url(/fonts/Perdita-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"IDC Hesperapis";src:url(/fonts/IDCHesperapis-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
