@@ -16,19 +16,18 @@ and a localStorage cart work. **Not live:** checkout, accounts, downloads, conta
 Keyman keyboard `idc_deseret` v1.0 (MIT, © N. E. Davis for the IDC); `src/data/idcKeyboard.ts`. Keycaps show the Latin key,
 the glyph in IDC Hesperapis, and the keyword from *The Deseret Alphabet* (Shosted & Davis) with the spelling of the sound underlined.
 All 38 letters, the AltGr layer and 4 ligatures were checked against the Keyman `.kmn`, with one deliberate divergence:
-AltGr+J types the schwa (PUA: U+E00D minuscule, Shift → U+E00C capital) instead of Latin ı/I. The DTF subsets carry E00D but not E00C; the tester falls back to Hesperapis for missing glyphs (Sericogaster has neither yet); all 40 keywords against `deseret-ms.tex`.
+AltGr+J types the schwa (PUA: U+E00D minuscule, Shift → U+E00C capital) instead of Latin ı/I. The DTF subsets carry E00D but not E00C; the tester falls back to Hesperapis for missing glyphs (Sericogaster has neither); all 40 keywords against `deseret-ms.tex`.
 Links out to keyman.com/keyboards/idc_deseret and 2deseret.com (English → Deseret translator).
 
 ## Specimens
-`public/specimens/<slug>.pdf` (Andrena, Augochlora, Calyptapis, Hesperapis), embedded + downloadable on each type page via `Family.specimen`.
+`public/specimens/<slug>.pdf` (Andrena, Augochlora, Calyptapis, Hesperapis, Sericogaster), embedded + downloadable on each type page via `Family.specimen`.
 Copied from soma's builds (`~/Fonts/*/…/specimens/`, v1.0; Hesperapis v1.1). They show capitals as drawn outlines; no DTF font file is embedded
-(only Georgia/Hiragino/Menlo captions). Policy (Neal): showing majuscules is fine; never ship the retail font files. Sericogaster has no
-specimen yet (stopgap minuscules). Re-copy when soma regenerates them.
+(only Georgia/Hiragino/Menlo captions). Policy (Neal): showing majuscules is fine; never ship the retail font files. Re-copy when soma regenerates them.
 
 ## Sericogaster
-Forthcoming card + About row only (3-glyph, 792-byte `Sericogaster-Bold.woff2` subset ships): `page: false` in `src/data/catalog.ts` means no `/typefaces/sericogaster/` route and no links to it (Home and About list it as a notice).
-Its stopgap font files are parked in `_unpublished/fonts/` (gitignored, not shipped). To launch it: set `page: true`, move the files back to `public/fonts/`,
-restore its `@font-face` rules in `global.css`, and (when ready) add a specimen.
+Released 2026-11-23 (font repo tag v1.0): type page, tester and specimen like the other DTF faces. `public/fonts/Sericogaster-{Regular,Bold}.woff2`
+are the `dtf webfonts --minuscule-only` subsets (73 glyphs: minuscules, figures, punctuation). Its minuscules are still the capitals scaled to 0.8
+with capital-width hairlines. Its `salt` alternates are capitals only, so the page lists no features (the preview fonts have no capitals to show them).
 
 ## Images (preview size only)
 Sticker and poster art ships at **display size, 1×** (stickers 220 px wide, home-page thumbnails 90 px, poster `pd-sticker.png` 520 px), never the
@@ -62,7 +61,7 @@ Pages is static only: the storefront backend (Paddle webhook, signed downloads, 
 ## Fonts (2026-11-09)
 `public/fonts/` now holds soma's builds (dtf toolkit 03b4ea6): Andrena, Augochlora, Calyptapis = **minuscule-only** subsets
 (40 minuscules + digits/punctuation, no capitals); IDC Hesperapis = the full font (SIL OFL, fine to publish);
-Sericogaster = stopgap minuscule-only build (scaled capitals; no digits/punctuation yet). No retail capitals remain in `public/fonts/`.
+Sericogaster = minuscule-only subsets of v1.0 (see above). No retail capitals remain in `public/fonts/`.
 `Family.caps/mins` in `src/data/catalog.ts` record coverage; `face()` folds sample text to what each face can draw,
 and the tester keyboard types minuscules for minuscule-only faces. Retail files are backed up in soma's scratchpad, not in this repo.
 

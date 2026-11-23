@@ -111,9 +111,9 @@ export const FAMILIES: Family[] = [
     },
   },
   {
-    slug: 'sericogaster', page: false, kind: 'Art Deco', prefix: 'DTF', name: 'Sericogaster', css: "'DTF Sericogaster'", style: 'Forthcoming', status: 'soon', caps: false, mins: true, // stopgap minuscules (scaled capitals); no digits/punctuation yet
+    slug: 'sericogaster', page: true, specimen: '/specimens/sericogaster.pdf', prefix: 'DTF', name: 'Sericogaster', css: "'DTF Sericogaster'", style: 'Art Deco', status: 'avail', caps: false, mins: true,
     weights: [[400, 'Regular'], [700, 'Bold']], heroW: 700, cardBg: '#3d2447', fg: '#e2c6ea',
-    blurb: 'The next family from the foundry, in preparation.',
+    blurb: 'A high-contrast Art Deco display face for the Deseret alphabet.',
     note: 'A monotypic genus of Australian bees.',
     theme: { ...GOLD, bg: '#3d2447', arch: '#2c1834', text: '#f1e4f4', hi: '#e2c6ea' },
   },
@@ -144,7 +144,7 @@ const puaCap = (cp: number) => (cp >= 0xe006 && cp <= 0xe00b ? cp - 6 : cp === 0
 export const toMin = (s: string) => Array.from(s, (c) => { const cp = c.codePointAt(0)!; return String.fromCodePoint(inCaps(cp) ? cp + MIN_OFFSET : puaMin(cp)); }).join('');
 /** Minuscules -> capitals. */
 export const toCap = (s: string) => Array.from(s, (c) => { const cp = c.codePointAt(0)!; return String.fromCodePoint(inMins(cp) ? cp - MIN_OFFSET : puaCap(cp)); }).join('');
-/** Make a sample string renderable in this face: the preview subsets are minuscule-only; Sericogaster is a stopgap minuscule-only build. */
+/** Make a sample string renderable in this face: the preview subsets are minuscule-only. */
 export const face = (f: Pick<Family, 'caps' | 'mins'>, s: string) => (!f.caps ? toMin(s) : !f.mins ? toCap(s) : s);
 
 export const SAMPLE_GLYPHS = '𐐔𐐓𐐙';

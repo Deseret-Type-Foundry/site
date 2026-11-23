@@ -21,6 +21,7 @@
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 @font-face{font-family:"DTF Calyptapis";src:url(/fonts/Calyptapis-Black.woff2) format("woff2");font-weight:900;font-display:swap}
+@font-face{font-family:"DTF Sericogaster";src:url(/fonts/Sericogaster-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"DTF Sericogaster";src:url(/fonts/Sericogaster-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 /* Perdita preview: just the three sample capitals (D T F), 836 bytes. scripts/check-fonts.py allows exactly these. */
 @font-face{font-family:"DTF Perdita";src:url(/fonts/Perdita-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
@@ -146,7 +147,9 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outli
 
 /* ---- Typeface ---- */
 .fam-hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;align-items:end}
-.fam-hero h1{font-size:clamp(36px,4.6vw,56px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;line-height:1}
+/* Shrinks to fit its column for long names (--n = letters; a letter with its tracking is about .8em wide). */
+.fam-hero .name-col{container-type:inline-size}
+.fam-hero h1{font-size:clamp(24px,min(4.6vw,100cqi / (var(--n,10) * .85)),56px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;line-height:1}
 .spec{display:flex;flex-direction:column;font-size:13px;letter-spacing:.08em;padding-bottom:8px}
 .spec .row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid var(--line)}
 .spec .row:last-of-type{border-bottom:1px solid var(--line)}

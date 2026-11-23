@@ -31,9 +31,9 @@ const payload = {
       <a href="/">Typefaces</a><span>/</span><span style="color:var(--text)">{f.name}</span>
     </div>
     <div class="fam-hero">
-      <div class="stack" style="gap:14px;padding-bottom:8px">
+      <div class="stack name-col" style="gap:14px;padding-bottom:8px">
         <span class="label">{f.prefix}</span>
-        <h1>{f.name}</h1>
+        <h1 style={`--n:${f.name.length}`}>{f.name}</h1>
         <p style="font-size:17px;font-weight:300;line-height:1.6;max-width:360px;text-wrap:pretty">{f.blurb}</p>
       </div>
       <div class="frame block" style="min-width:0">
